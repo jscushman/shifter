@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<h1>Person</h1>
+
 <p>
   <strong>Name:</strong>
   <%= @person.name %>
@@ -10,5 +12,34 @@
   <%= @person.group %>
 </p>
 
-<%= link_to 'Edit', edit_person_path(@person) %> |
-<%= link_to 'Back', people_path %>
+<%= link_to 'Edit', edit_person_path(@person) %>
+
+<h1>Appointments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Created</th>
+      <th>Starts</th>
+      <th>Days</th>
+      <th>Note</th>
+      <th>Calendar</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @person.appointments.each do |appointment| %>
+      <tr>
+        <td><%= appointment.created %></td>
+        <td><%= appointment.starts %></td>
+        <td><%= appointment.days %></td>
+        <td><%= appointment.note %></td>
+        <td><%= link_to appointment.calendar.title, calendar_path(appointment.calendar) %></td>
+        <td><%= link_to 'Show', appointment_path(appointment) %></td>
+        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
+        <td><%= link_to 'Destroy', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

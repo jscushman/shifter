@@ -22,12 +22,12 @@
 
 <p>
   <strong>Calendar:</strong>
-  <%= @appointment.calendar %>
+  <%= link_to @appointment.calendar.title, calendar_path(@appointment.calendar) %>
 </p>
 
 <p>
   <strong>Person:</strong>
-  <%= @appointment.person %>
+  <%= link_to @appointment.person.name, person_path(@appointment.person) %>
 </p>
 
 <%= link_to 'Edit', edit_appointment_path(@appointment) %> |

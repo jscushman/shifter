@@ -22,8 +22,8 @@
         <td><%= appointment.starts %></td>
         <td><%= appointment.days %></td>
         <td><%= appointment.note %></td>
-        <td><%= appointment.calendar %></td>
-        <td><%= appointment.person %></td>
+        <td><%= link_to appointment.calendar.title, calendar_path(appointment.calendar) %></td>
+        <td><%= link_to appointment.person.name, person_path(appointment.person) %></td>
         <td><%= link_to 'Show', appointment %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
         <td><%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
