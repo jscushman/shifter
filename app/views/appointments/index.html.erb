@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Appointments</h1>
+<h3>Listing Appointments</h3>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Created</th>
@@ -26,7 +26,7 @@
         <td><%= link_to appointment.person.name, person_path(appointment.person) %></td>
         <td><%= link_to 'Show', appointment %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

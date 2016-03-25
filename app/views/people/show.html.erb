@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Person</h1>
+<h3>Person</h3>
 
 <p>
   <strong>Name:</strong>
@@ -24,9 +24,9 @@
 
 <%= link_to 'Edit', edit_person_path(@person) %>
 
-<h1>Appointments</h1>
+<h3>Appointments</h3>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Created</th>
@@ -48,7 +48,7 @@
         <td><%= link_to appointment.calendar.title, calendar_path(appointment.calendar) %></td>
         <td><%= link_to 'Show', appointment_path(appointment) %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Destroy', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

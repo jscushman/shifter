@@ -7,8 +7,20 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div id="main-container" class="container">
+    <div class="row">
+      <div class="col-xs-2">
+        <h3>CUORE Shifter</h3>
+        <ul>
+          <li><%= link_to 'Calendars', calendars_path %></li>
+          <li><%= link_to 'People', people_path %></li>
+          <li><%= link_to 'Groups', groups_path %></li>
+        </ul>
+      </div>
+      <div class="col-xs-10">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
