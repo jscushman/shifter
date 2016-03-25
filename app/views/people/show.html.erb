@@ -9,7 +9,7 @@
 
 <p>
   <strong>Group:</strong>
-  <%= @person.group %>
+  <%= link_to @person.group.name, @person.group %>
 </p>
 
 <%= link_to 'Edit', edit_person_path(@person) %>

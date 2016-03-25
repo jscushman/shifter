@@ -32,9 +32,9 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   def update
     if @person.update(person_params)
-      format.html { redirect_to @person, notice: 'Person was successfully updated.' }
+      redirect_to @person, notice: 'Person was successfully updated.'
     else
-      format.html { render :edit }
+      render :edit
     end
   end
 

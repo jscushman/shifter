@@ -39,7 +39,7 @@
         <td><%= appointment.starts %></td>
         <td><%= appointment.days %></td>
         <td><%= appointment.note %></td>
-        <td><%= link_to appointment.person.name, person_path(appointment.person) %></td>
+        <td><%= link_to appointment.person.name, person_path(appointment.person) %> (<%= link_to appointment.person.group.name, group_path(appointment.person.group) %>)</td>
         <td><%= link_to 'Show', appointment_path(appointment) %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
         <td><%= link_to 'Destroy', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
