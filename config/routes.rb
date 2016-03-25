@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :appointments
+  resources :people
+  resources :groups
+  resources :calendars
   get 'welcome/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

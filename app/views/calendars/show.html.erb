@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @calendar.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @calendar.description %>
+</p>
+
+<p>
+  <strong>Max simultaneous:</strong>
+  <%= @calendar.max_simultaneous %>
+</p>
+
+<%= link_to 'Edit', edit_calendar_path(@calendar) %> |
+<%= link_to 'Back', calendars_path %>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  created: 2016-03-25 10:22:33
+  starts: 2016-03-25
+  days: 1
+  note: MyText
+  calendar_id: 
+  person_id: 
+
+two:
+  created: 2016-03-25 10:22:33
+  starts: 2016-03-25
+  days: 1
+  note: MyText
+  calendar_id: 
+  person_id: 

@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325040406) do
+ActiveRecord::Schema.define(version: 20160325141912) do
+
+  create_table "appointments", force: :cascade do |t|
+    t.datetime "created"
+    t.date     "starts"
+    t.integer  "days"
+    t.text     "note"
+    t.integer  "calendar_id"
+    t.integer  "person_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "appointments", ["calendar_id"], name: "index_appointments_on_calendar_id"
+  add_index "appointments", ["person_id"], name: "index_appointments_on_person_id"
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -19,5 +33,28 @@ ActiveRecord::Schema.define(version: 20160325040406) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "calendars", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "max_simultaneous"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "people", ["group_id"], name: "index_people_on_group_id"
 
 end
