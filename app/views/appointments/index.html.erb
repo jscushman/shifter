@@ -7,7 +7,7 @@
     <tr>
       <th>Created</th>
       <th>Starts</th>
-      <th>Days</th>
+      <th>Ends</th>
       <th>Note</th>
       <th>Calendar</th>
       <th>Person</th>
@@ -20,7 +20,7 @@
       <tr>
         <td><%= appointment.created %></td>
         <td><%= appointment.starts %></td>
-        <td><%= appointment.days %></td>
+        <td><%= appointment.ends %></td>
         <td><%= appointment.note %></td>
         <td><%= link_to appointment.calendar.title, calendar_path(appointment.calendar) %></td>
         <td><%= link_to appointment.person.name, person_path(appointment.person) %></td>

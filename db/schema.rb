@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325161702) do
+ActiveRecord::Schema.define(version: 20160326200647) do
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "created"
     t.date     "starts"
-    t.integer  "days"
     t.text     "note"
     t.integer  "calendar_id"
     t.integer  "person_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.date     "ends"
   end
 
   add_index "appointments", ["calendar_id"], name: "index_appointments_on_calendar_id"

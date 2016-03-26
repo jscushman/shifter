@@ -9,6 +9,16 @@ class CalendarsController < ApplicationController
 
   # GET /calendars/1
   def show
+    if (not params[:startmonth].nil? and not params[:startyear].nil?)
+      begin
+        theday = Date.parse(params[:startyear] + "-" + params[:startmonth] + "-01")
+      rescue ArgumentError
+        theday = Date.today
+      end
+    else
+      theday = Date.today
+    end
+    @firstday = theday.beginning_of_week(:sunday)
   end
 
   # GET /calendars/new

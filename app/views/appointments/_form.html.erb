@@ -30,8 +30,22 @@
     </div>
   </div>
   <div class="field form-group">
-    <%= f.label :days, class: 'col-sm-2 control-label' %>
-    <div class="col-sm-8"><%= f.number_field :days, class: 'form-control' %></div>
+    <%= f.label :starts, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8">
+      <%= f.date_select :ends %>
+      
+      <%= javascript_tag do %>
+      $(function () {
+        $('#appointment_ends').datetimepicker({
+          <% if not params[:startdate].nil? %>
+            defaultDate: '<%= j params[:enddate] %>'
+          <% elsif not @appointment.starts.nil? %>
+            defaultDate: '<%= j @appointment.starts.to_s %>'
+          <% end %>
+        });
+      });
+      <% end %>
+    </div>
   </div>
   <div class="field form-group">
     <%= f.label :note, class: 'col-sm-2 control-label' %>

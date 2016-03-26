@@ -13,7 +13,12 @@
   
   <tr>
     <td>Dates:</td>
-    <td><%= @appointment.starts.strftime("%B %d, %Y") %> to <%= (@appointment.starts + @appointment.days - 1).strftime("%B %d, %Y") %> (<%= @appointment.days %> days)</td>
+    <td>
+      <%= @appointment.starts.strftime("%B %d, %Y") %>
+      <% if @appointment.starts != @appointment.ends %>
+        &ndash; <%= @appointment.ends.strftime("%B %d, %Y") %> (<%= (@appointment.ends - @appointment.starts + 1).to_i %> days)
+      <% end %>
+    </td>
   </tr>
 
   <tr>

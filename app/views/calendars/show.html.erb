@@ -1,22 +1,16 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @calendar.title %>
-</p>
+<h3><%= @calendar.title %></h3>
 
 <p>
-  <strong>Description:</strong>
   <%= @calendar.description %>
 </p>
 
 <p>
-  <strong>Max simultaneous:</strong>
-  <%= @calendar.max_simultaneous %>
+  Number of permitted simultaneous reservations: <%= @calendar.max_simultaneous %>
 </p>
 
-<%= link_to 'Edit', edit_calendar_path(@calendar) %> |
-<%= link_to 'Back', calendars_path %>
+<p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
 
 <h3>Appointments</h3>
 <table class="table table-bordered table-striped">
@@ -29,13 +23,11 @@
     <th>Friday</th>
     <th>Saturday</th>
   </tr>
-  <% firstday = Date.today.beginning_of_week(:sunday) %>
-  <% (0..9).each do |week| %>
+  <% (0..8).each do |week| %>
     <tr>
       <% (0..6).each do |day| %>
-        <% thisday = firstday + day + 7 * week %>
-        <% todays_appointments = calendar_appointments(thisday) %>
-        <td style="width: 14.29%" class="<%= todays_appointments.length > 0 ? "success" : "" %>">
+        <% thisday = @firstday + day + 7 * week %>
+        <td style="width: 14.29%" class="<%= @calendar.appointments.on(thisday).length > 0 ? "success" : "" %>">
           <% if thisday.mday == 1 %>
             <strong><%= link_to thisday.strftime("%B %Y"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %></strong>
           <% else %>
@@ -43,9 +35,9 @@
               <%= link_to thisday.strftime("%-d"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %>
             </div>
           <% end %>
-          <% calendar_appointments(thisday).each do |appointment| %>
+          <% @calendar.appointments.on(thisday).each do |appointment| %>
             <br /><%= link_to(appointment.person.name, appointment_path(appointment)) %>
-          <% end %>
+          <% end %>          
         </td>  
       <% end %>
     </tr>
@@ -58,20 +50,22 @@
   <thead>
     <tr>
       <th>Person</th>
-      <th>Starts</th>
-      <th>Days</th>
-      <th>Note</th>
-      <th colspan="2"></th>
+      <th>Dates</th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @calendar.appointments.each do |appointment| %>
+    <% @calendar.appointments.order(:starts).each do |appointment| %>
       <tr>
         <td><%= link_to appointment.person.name, person_path(appointment.person) %> (<%= link_to appointment.person.group.name, group_path(appointment.person.group) %>)</td>
-        <td><%= appointment.starts %></td>
-        <td><%= appointment.days %></td>
-        <td><%= appointment.note %></td>
+        <td>
+          <%= appointment.starts.strftime("%B %d, %Y") %>
+          <% if appointment.starts != appointment.ends %>
+            &ndash; <%= appointment.ends.strftime("%B %d, %Y") %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Details', appointment %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
         <td><%= link_to 'Delete', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
