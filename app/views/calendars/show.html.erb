@@ -19,6 +19,40 @@
 <%= link_to 'Back', calendars_path %>
 
 <h3>Appointments</h3>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>Sunday</th>
+    <th>Monday</th>
+    <th>Tuesday</th>
+    <th>Wednesday</th>
+    <th>Thursday</th>
+    <th>Friday</th>
+    <th>Saturday</th>
+  </tr>
+  <% firstday = Date.today.beginning_of_week(:sunday) %>
+  <% (0..9).each do |week| %>
+    <tr>
+      <% (0..6).each do |day| %>
+        <% thisday = firstday + day + 7 * week %>
+        <% todays_appointments = calendar_appointments(thisday) %>
+        <td style="width: 14.29%" class="<%= todays_appointments.length > 0 ? "success" : "" %>">
+          <% if thisday.mday == 1 %>
+            <strong><%= link_to thisday.strftime("%B %Y"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %></strong>
+          <% else %>
+            <div class="pull-right">
+              <%= link_to thisday.strftime("%-d"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %>
+            </div>
+          <% end %>
+          <% calendar_appointments(thisday).each do |appointment| %>
+            <br /><%= link_to(appointment.person.name, appointment_path(appointment)) %>
+          <% end %>
+        </td>  
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<h3>Appointment List</h3>
 
 <table class="table table-striped">
   <thead>

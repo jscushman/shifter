@@ -22,6 +22,7 @@ class AppointmentsController < ApplicationController
   # POST /appointments
   def create
     @appointment = Appointment.new(appointment_params)
+    @appointment.created = Time.new
     if @appointment.save
       redirect_to @appointment, notice: 'Appointment was successfully created.'
     else
@@ -52,6 +53,6 @@ class AppointmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
-      params.require(:appointment).permit(:created, :starts, :days, :note, :calendar_id, :person_id)
+      params.require(:appointment).permit(:starts, :days, :note, :calendar_id, :person_id)
     end
 end

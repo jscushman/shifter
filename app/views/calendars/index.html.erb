@@ -1,26 +1,20 @@
 <p id="notice"><%= notice %></p>
 
-<h3>Listing Calendars</h3>
+<h3>All Calendars</h3>
 
-<table class="table table-striped">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Title</th>
       <th>Description</th>
-      <th>Max simultaneous</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @calendars.each do |calendar| %>
-      <tr>
-        <td><%= calendar.title %></td>
+      <tr onclick="window.document.location='<%= calendar_url(calendar) %>'">
+        <td><%= link_to calendar.title, calendar %></td>
         <td><%= calendar.description %></td>
-        <td><%= calendar.max_simultaneous %></td>
-        <td><%= link_to 'Show', calendar %></td>
-        <td><%= link_to 'Edit', edit_calendar_path(calendar) %></td>
-        <td><%= link_to 'Delete', calendar, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

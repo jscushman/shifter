@@ -1,34 +1,31 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Created:</strong>
-  <%= @appointment.created %>
-</p>
+<table class="table table-striped">
+  <tr>
+    <td>Person:</td>
+    <td><%= link_to @appointment.person.name, person_path(@appointment.person) %> (<%= link_to @appointment.person.group.name, group_path(@appointment.person.group) %>)</td>
+  </tr>
+  
+  <tr>
+    <td>Calendar:</td>
+    <td><%= link_to @appointment.calendar.title, calendar_path(@appointment.calendar) %></td>
+  </tr>
+  
+  <tr>
+    <td>Dates:</td>
+    <td><%= @appointment.starts.strftime("%B %d, %Y") %> to <%= (@appointment.starts + @appointment.days - 1).strftime("%B %d, %Y") %> (<%= @appointment.days %> days)</td>
+  </tr>
 
-<p>
-  <strong>Starts:</strong>
-  <%= @appointment.starts %>
-</p>
+  <tr>
+    <td>Note:</td>
+    <td><%= @appointment.note %></td>
+  </tr>
 
-<p>
-  <strong>Days:</strong>
-  <%= @appointment.days %>
-</p>
-
-<p>
-  <strong>Note:</strong>
-  <%= @appointment.note %>
-</p>
-
-<p>
-  <strong>Calendar:</strong>
-  <%= link_to @appointment.calendar.title, calendar_path(@appointment.calendar) %>
-</p>
-
-<p>
-  <strong>Person:</strong>
-  <%= link_to @appointment.person.name, person_path(@appointment.person) %>
-</p>
+  <tr>
+    <td>Created:</td>
+    <td><%= @appointment.created.strftime("%B %d, %Y") %> at <%= @appointment.created.strftime("%H:%M") %></td>
+  </tr>
+</table>
 
 <%= link_to 'Edit', edit_appointment_path(@appointment) %> |
 <%= link_to 'Back', appointments_path %>
