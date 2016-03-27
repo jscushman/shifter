@@ -13,6 +13,15 @@
 <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
 
 <h3>Appointments</h3>
+<form action="" method="get" class="form form-inline">
+  <div class="field form-group">
+    <%= label_tag :startmonth, "Start date:", class: 'control-label' %>
+    <%= month_field_tag :startmonth, @startyear + "-" + @startmonth, class: 'form-control' %>&nbsp;
+    <%= label_tag :startmonth, "Months to show:", class: 'control-label' %>
+    <%= number_field_tag :months, @months, min: 1, max: 36, size: 2, class: 'form-control' %>
+  </div>
+  <input type="submit" value="Show" />
+</form>
 <table class="table table-bordered table-striped">
   <tr>
     <th>Sunday</th>
@@ -23,7 +32,7 @@
     <th>Friday</th>
     <th>Saturday</th>
   </tr>
-  <% (0..8).each do |week| %>
+  <% (0..(5*@months)).each do |week| %>
     <tr>
       <% (0..6).each do |day| %>
         <% thisday = @firstday + day + 7 * week %>
