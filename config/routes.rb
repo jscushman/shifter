@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'credits/index'
+  get 'credits' => 'credits#index'
+
   resources :people
   resources :groups
   resources :calendars

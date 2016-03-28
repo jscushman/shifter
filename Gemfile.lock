@@ -83,6 +83,10 @@ GEM
     multi_json (1.11.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    phony (2.15.19)
+    phony_rails (0.13.0)
+      activesupport (>= 3.0)
+      phony (~> 2.12)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -159,6 +163,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   momentjs-rails (>= 2.9.0)
+  phony_rails
   rails (= 4.2.6)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

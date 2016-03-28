@@ -4,6 +4,9 @@ class PeopleController < ApplicationController
   # GET /people
   def index
     @people = Person.all
+    @sortedpeople = @people.sort_by do |person|
+      person.name.split(" ").reverse.join.upcase
+    end
   end
 
   # GET /people/1

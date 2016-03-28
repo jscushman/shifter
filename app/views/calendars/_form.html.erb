@@ -20,8 +20,12 @@
     <div class="col-sm-8"><%= f.text_area :description, class: 'form-control' %></div>
   </div>
   <div class="field form-group">
-    <%= f.label :max_simultaneous, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <%= f.label "Simultaneous", class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
     <div class="col-sm-8"><%= f.number_field :max_simultaneous, class: 'form-control' %></div>
+  </div>
+  <div class="field form-group">
+    <%= f.label :days_per_credit, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.number_field :days_per_credit, class: 'form-control' %></div>
   </div>
   <div class="actions form-group">
     <div class="col-sm-offset-2 col-sm-8">

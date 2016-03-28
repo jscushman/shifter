@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160326200647) do
+ActiveRecord::Schema.define(version: 20160328160121) do
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "created"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160326200647) do
     t.integer  "max_simultaneous"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "days_per_credit"
   end
 
   create_table "groups", force: :cascade do |t|

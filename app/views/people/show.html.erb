@@ -14,7 +14,7 @@
 
 <p>
   <strong>Phone:</strong>
-  <%= @person.phone %>
+  <%= @person.phone.phony_formatted(format: :international) %>
 </p>
 
 <p>
@@ -22,7 +22,7 @@
   <%= link_to @person.group.name, @person.group %>
 </p>
 
-<%= link_to 'Edit', edit_person_path(@person) %>
+<%= link_to 'Edit', edit_person_path(@person) %> | <%= link_to 'Delete', person_path(@person), method: :delete, data: { confirm: 'Are you sure?' } %>
 
 <h3>Appointments</h3>
 
@@ -47,7 +47,6 @@
         </td>
         <td><%= link_to 'Details', appointment %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Delete', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

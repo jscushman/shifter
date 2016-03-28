@@ -1,0 +1,27 @@
+<h3>Shift credits by institution</h3>
+<form class="form-inline" style="padding-bottom:1em">
+  <div class="field form-group">
+    <label class="control-label" for="start_year">From</label>&nbsp;
+    <%= number_field_tag :start_year, @months, value: @start_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>&nbsp;
+    <label class="control-label" for="end_year">to</label>&nbsp;
+    <%= number_field_tag :end_year, @months, value: @end_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>&nbsp;
+  </div>
+  <input type="submit" value="Show" class="btn btn-primary" />
+  <a href="<%= request.path %>" class="btn btn-primary">Reset</a>
+</form>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>Group</th>
+    <th>Shift Credits in <%= @start_year %>
+      <% if @start_year.to_i != @end_year.to_i %>
+        &ndash; <%= @end_year %>
+      <% end %>
+</th>
+  </tr>
+  <% Group.all.each do |group| %>
+    <tr>
+      <td><%= link_to group.name, group %></td>
+      <td><%= sum_credits group, @start_year, @end_year %></td>
+    </tr>
+  <% end %>
+</table>

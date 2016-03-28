@@ -1,6 +1,5 @@
 class CalendarsController < ApplicationController
   before_action :set_calendar, only: [:show, :edit, :update, :destroy]
-  helper CalendarsHelper
 
   # GET /calendars
   def index
@@ -67,6 +66,6 @@ class CalendarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def calendar_params
-      params.require(:calendar).permit(:title, :description, :max_simultaneous)
+      params.require(:calendar).permit(:title, :description, :max_simultaneous, :days_per_credit)
     end
 end
