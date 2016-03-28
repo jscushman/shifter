@@ -12,18 +12,22 @@
 
 <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
 
-<h3>Appointments</h3>
+<h3>Reservations</h3>
+<div class="pull-left">
+  <%= link_to "New Reservation", new_appointment_path({cal: @calendar.id}), class: "btn btn-primary" %>
+</div>
 <div class="pull-right">
   <form class="form-inline" style="padding-bottom:1em">
     <div class="field form-group">
-      <label class="control-label" for="startmonth">Start at</label>&nbsp;
+      <%= number_field_tag :months, @months, min: 1, max: 36, size: 2, class: 'form-control' %>&nbsp;
+      <label class="control-label" for="months">month(s)</label>
+    </div>
+    <div class="field form-group">
+      <label class="control-label" for="startmonth">starting</label>&nbsp;
       <div class="input-group">
         <input value="" class="form-control datepicker" data-date-format="MMMM YYYY" type="text" name="startmonth" id="startmonth" />
         <span class="glyphicon glyphicon-calendar input-group-addon">
       </div>&nbsp;
-      <label class="control-label" for="months">for</label>&nbsp;
-      <%= number_field_tag :months, @months, min: 1, max: 36, size: 2, class: 'form-control' %>&nbsp;
-      <label class="control-label" for="months">months</label>
     </div>
     <input type="submit" value="Show" class="btn btn-primary" />
     <a href="<%= request.path %>" class="btn btn-primary">Reset</a>
@@ -72,8 +76,14 @@ $(function () {
   <% end %>
 </table>
 
-<h3>Appointment List</h3>
-
+<h3>Reservation List</h3>
+<% if params[:future] == "yes" %>
+  Showing all current and future reservations. <a href="<%= request.path %>?future=no">See all reservations</a>
+  <% all_appointments = @calendar.appointments.after(Date.today).order(:starts) %>
+<% else %>
+  Showing all reservations. <a href="<%= request.path %>?future=yes">See only current and future reservations</a>
+  <% all_appointments = @calendar.appointments.order(:starts) %>
+<% end %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -84,7 +94,7 @@ $(function () {
   </thead>
 
   <tbody>
-    <% @calendar.appointments.order(:starts).each do |appointment| %>
+    <% all_appointments.each do |appointment| %>
       <tr>
         <td><%= link_to appointment.person.name, person_path(appointment.person) %> (<%= link_to appointment.person.group.name, group_path(appointment.person.group) %>)</td>
         <td>
