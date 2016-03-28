@@ -7,21 +7,40 @@
 </p>
 
 <p>
-  Number of permitted simultaneous reservations: <%= @calendar.max_simultaneous %>
+  Number of simultaneous reservations permitted: <%= @calendar.max_simultaneous %>
 </p>
 
 <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
 
 <h3>Appointments</h3>
-<form action="" method="get" class="form form-inline">
-  <div class="field form-group">
-    <%= label_tag :startmonth, "Start date:", class: 'control-label' %>
-    <%= month_field_tag :startmonth, @startyear + "-" + @startmonth, class: 'form-control' %>&nbsp;
-    <%= label_tag :startmonth, "Months to show:", class: 'control-label' %>
-    <%= number_field_tag :months, @months, min: 1, max: 36, size: 2, class: 'form-control' %>
-  </div>
-  <input type="submit" value="Show" />
-</form>
+<div class="pull-right">
+  <form class="form-inline" style="padding-bottom:1em">
+    <div class="field form-group">
+      <label class="control-label" for="startmonth">Start at</label>&nbsp;
+      <div class="input-group">
+        <input value="" class="form-control datepicker" data-date-format="MMMM YYYY" type="text" name="startmonth" id="startmonth" />
+        <span class="glyphicon glyphicon-calendar input-group-addon">
+      </div>&nbsp;
+      <label class="control-label" for="months">for</label>&nbsp;
+      <%= number_field_tag :months, @months, min: 1, max: 36, size: 2, class: 'form-control' %>&nbsp;
+      <label class="control-label" for="months">months</label>
+    </div>
+    <input type="submit" value="Show" class="btn btn-primary" />
+    <a href="<%= request.path %>" class="btn btn-primary">Reset</a>
+  </form>
+</div>
+<%= javascript_tag do %>
+$(function () {
+  $('#startmonth').datetimepicker({
+    <% if not params[:startmonth].nil? %>
+      defaultDate: '<%= j params[:startmonth] %>'
+    <% else %>
+      defaultDate: '<%= j Date.today.strftime("%Y-%m") %>'
+    <% end %>
+  });
+});
+<% end %>
+
 <table class="table table-bordered table-striped">
   <tr>
     <th>Sunday</th>

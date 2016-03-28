@@ -7,17 +7,25 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div id="main-container" class="container">
-    <div class="row">
-      <div class="col-xs-2">
-        <h3>CUORE Shifter</h3>
-        <ul>
-          <li><%= link_to 'Calendars', calendars_path %></li>
-          <li><%= link_to 'People', people_path %></li>
-          <li><%= link_to 'Groups', groups_path %></li>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="<%= root_url %>">
+          <img alt="Brand" src="<%= root_url %>site_logo.png" height=20px>
+        </a>
+        <a class="navbar-brand" href="<%= root_url %>">Shift Reservations</a>
+        <ul class="nav navbar-nav">
+          <li><a href="<%= root_url %>calendars">Calendars</a></li>
+          <li><a href="<%= root_url %>people">People</a></li>
+          <li><a href="<%= root_url %>groups">Groups</a></li>
         </ul>
       </div>
-      <div class="col-xs-10">
+    </div>
+  </nav>
+  <div id="main-container" class="container">
+    <div class="row">
+      <div class="col-xs-12">
         <%= yield %>
       </div>
     </div>
