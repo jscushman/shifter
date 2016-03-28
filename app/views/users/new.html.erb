@@ -1,0 +1,42 @@
+<% @page_title = "User signup" %>
+
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h3>Crate new account</h3>
+<%= form_for(@user, html: {class: 'form-horizontal'}) do |f| %>
+  <div class="field form-group">
+    <%= f.label :username, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.text_field :username, class: 'form-control' %></div>
+  </div>
+  
+  <div class="field form-group">
+    <%= f.label :email, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.email_field :email, class: 'form-control' %></div>
+  </div>
+  
+  <div class="field form-group">
+    <%= f.label :password, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.password_field :password, class: 'form-control' %></div>
+  </div>
+  
+  <div class="field form-group">
+    <%= f.label "Retype password", class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.password_field :password_confirmation, class: 'form-control' %></div>
+  </div>
+  
+  <div class="actions form-group">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

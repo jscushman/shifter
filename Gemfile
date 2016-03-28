@@ -32,7 +32,7 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'phony_rails'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

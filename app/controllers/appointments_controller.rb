@@ -22,7 +22,6 @@ class AppointmentsController < ApplicationController
   # POST /appointments
   def create
     @appointment = Appointment.new(appointment_params)
-    @appointment.created = Time.new
     if @appointment.save
       redirect_to @appointment, notice: 'Appointment was successfully created.'
     else
