@@ -1,0 +1,21 @@
+<h3>All users</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.order(:username).each do |user| %>
+      <tr>
+        <td><%= link_to user.username, user %></td>
+        <td><%= user.email %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

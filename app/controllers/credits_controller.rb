@@ -1,5 +1,6 @@
 class CreditsController < ApplicationController
   helper CreditsHelper
+  before_action :authenticate_user
   
   def index
     if (not params[:start_year].nil? and params[:start_year].to_i > 0)

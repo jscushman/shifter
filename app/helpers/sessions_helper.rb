@@ -12,6 +12,10 @@ module SessionsHelper
     !current_user.nil?
   end
   
+  def admin?
+    !current_user.nil? and current_user.admin
+  end
+  
   def log_out
     session.delete(:user_id)
     @current_user = nil
@@ -24,5 +28,34 @@ module SessionsHelper
       redirect_to login_url(returnto: request.fullpath)
     end
   end
+  
+  def authenticate_specific_user user
+    if admin?
+      return
+    elsif current_user == user 
+      return
+    else
+      flash[:"alert-danger"] = 'Only administrators can perform this action'
+      begin
+        redirect_to :back
+      rescue ActionController::RedirectBackError
+        redirect_to root_path
+      end
+    end
+  end
+  
+  def authenticate_admin
+    if admin?
+      return
+    else
+      flash[:"alert-danger"] = 'Only administrators can perform this action'
+      begin
+        redirect_to :back
+      rescue ActionController::RedirectBackError
+        redirect_to root_path
+      end
+    end
+  end
+  
   
 end

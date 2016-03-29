@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user, only: [:new, :edit, :create, :update, :destroy]
+  before_action :authenticate_user
+  before_action :authenticate_admin, only: [:destroy]
 
   # GET /people
   def index
@@ -27,7 +28,7 @@ class PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
     if @person.save
-      redirect_to @person, notice: 'Person was successfully created.'
+      redirect_to @person, flash: { success: 'Person was successfully created.' }
     else
       render :new
     end
@@ -36,7 +37,7 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   def update
     if @person.update(person_params)
-      redirect_to @person, notice: 'Person was successfully updated.'
+      redirect_to @person, flash: { success: 'Person was successfully updated.' }
     else
       render :edit
     end
@@ -45,7 +46,7 @@ class PeopleController < ApplicationController
   # DELETE /people/1
   def destroy
     @person.destroy
-    redirect_to people_url, notice: 'Person was successfully destroyed.'
+    redirect_to people_url, flash: { success: 'Person was successfully destroyed.' }
   end
 
   private

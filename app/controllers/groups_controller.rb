@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user, only: [:new, :edit, :create, :update, :destroy]
+  before_action :authenticate_user
+  before_action :authenticate_admin, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /groups
   def index
@@ -24,7 +25,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     if @group.save
-      redirect_to @group, notice: 'Group was successfully created.'
+      redirect_to @group, flash: { success: 'Group was successfully created.' }
     else
       render :new
     end
@@ -33,7 +34,7 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1
   def update
     if @group.update(group_params)
-      redirect_to @group, notice: 'Group was successfully updated.'
+      redirect_to @group, flash: { success: 'Group was successfully updated.' }
     else
       render :edit
     end
@@ -42,7 +43,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   def destroy
     @group.destroy
-    redirect_to groups_url, notice: 'Group was successfully destroyed.'
+    redirect_to groups_url, flash: { success: 'Group was successfully destroyed.' }
   end
 
   private

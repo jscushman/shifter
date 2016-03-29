@@ -1,6 +1,7 @@
 class CalendarsController < ApplicationController
   before_action :set_calendar, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user, only: [:new, :edit, :create, :update, :destroy]
+  before_action :authenticate_user
+  before_action :authenticate_admin, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /calendars
   def index
@@ -38,7 +39,7 @@ class CalendarsController < ApplicationController
   def create
     @calendar = Calendar.new(calendar_params)
     if @calendar.save
-      redirect_to @calendar, notice: 'Calendar was successfully created.'
+      redirect_to @calendar, flash: { success: 'Calendar was successfully created.' }
     else
       render :new
     end
@@ -47,7 +48,7 @@ class CalendarsController < ApplicationController
   # PATCH/PUT /calendars/1
   def update
     if @calendar.update(calendar_params)
-      redirect_to @calendar, notice: 'Calendar was successfully updated.'
+      redirect_to @calendar, flash: { success: 'Calendar was successfully updated.' }
     else
       render :edit
     end
@@ -56,7 +57,7 @@ class CalendarsController < ApplicationController
   # DELETE /calendars/1
   def destroy
     @calendar.destroy
-    redirect_to calendars_url, notice: 'Calendar was successfully destroyed.'
+    redirect_to calendars_url, flash: { success: 'Calendar was successfully deleted.' }
   end
 
   private
