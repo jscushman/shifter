@@ -21,6 +21,7 @@
           <li><a href="<%= root_url %>groups">Groups</a></li>
           <li><a href="<%= root_url %>credits">Shift Credits</a></li>
           <% if logged_in? %>
+            <li><%= link_to "My Account", user_path(current_user) %></li>
             <li><%= link_to "Log out", logout_path, method: "delete" %></li>
           <% else %>
             <li><%= link_to "Log in", login_path %></li>

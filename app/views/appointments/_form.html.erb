@@ -1,7 +1,7 @@
 <%= form_for(@appointment, html: {class: 'form-horizontal'}) do |f| %>
   <% if @appointment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
+    <div id="error_explanation" class="alert alert-danger fade in">
+      <p><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</p>
 
       <ul>
       <% @appointment.errors.full_messages.each do |message| %>
@@ -16,13 +16,16 @@
     <div class="col-sm-8">
       <%= f.date_select :starts %>
       
-      <%= javascript_tag do %>
+      <%= javascript_tag do %>  
       $(function () {
         $('#appointment_starts').datetimepicker({
           <% if not params[:startdate].nil? %>
-            defaultDate: '<%= j params[:startdate] %>'
+            defaultDate: '<%= j params[:startdate] %>',
           <% elsif not @appointment.starts.nil? %>
-            defaultDate: '<%= j @appointment.starts.to_s %>'
+            defaultDate: '<%= j @appointment.starts.to_s %>',
+          <% end %>
+          <% if not admin? %>
+            minDate: '<%= Date.today.strftime("%Y-%m-%d") %>'
           <% end %>
         });
       });
@@ -30,17 +33,22 @@
     </div>
   </div>
   <div class="field form-group">
-    <%= f.label :starts, class: 'col-sm-2 control-label' %>
+    <%= f.label :ends, class: 'col-sm-2 control-label' %>
     <div class="col-sm-8">
       <%= f.date_select :ends %>
       
       <%= javascript_tag do %>
       $(function () {
         $('#appointment_ends').datetimepicker({
-          <% if not params[:startdate].nil? %>
-            defaultDate: '<%= j params[:enddate] %>'
+          <% if not params[:enddate].nil? %>
+            defaultDate: '<%= j params[:enddate] %>',
+          <% elsif not params[:startdate].nil? %>
+            defaultDate: '<%= j params[:startdate] %>',
           <% elsif not @appointment.starts.nil? %>
-            defaultDate: '<%= j @appointment.starts.to_s %>'
+            defaultDate: '<%= j @appointment.starts.to_s %>',
+          <% end %>
+          <% if not admin? %>
+            minDate: '<%= Date.today.strftime("%Y-%m-%d") %>'
           <% end %>
         });
       });

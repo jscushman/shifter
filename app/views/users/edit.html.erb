@@ -1,8 +1,8 @@
 <% @page_title = "User signup" %>
 
 <% if @user.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+  <div id="error_explanation" class="alert alert-danger fade in">
+    <p><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</p>
 
     <ul>
     <% @user.errors.full_messages.each do |message| %>
