@@ -1,0 +1,25 @@
+<% provide(:title, "Log in") %>
+<h3>Log in</h3>
+
+<%= form_for(:session, url: login_path, html: {class: 'form-horizontal'}) do |f| %>
+
+  <div class="field form-group">
+    <%= f.label :username, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.text_field :username, class: 'form-control' %></div>
+  </div>
+
+  <div class="field form-group">
+    <%= f.label :password, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.password_field :password, class: 'form-control' %></div>
+  </div>
+
+  <div class="actions form-group">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    </div>
+  </div>
+  
+  <input type="hidden" name="returnto" value="<%= params[:returnto] %>">
+<% end%>
+
+<p>New user? <%= link_to "Create an account", new_user_path %></p>

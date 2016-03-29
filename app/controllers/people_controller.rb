@@ -1,5 +1,6 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /people
   def index
