@@ -1,9 +1,4 @@
-<h3>Person</h3>
-
-<p>
-  <strong>Name:</strong>
-  <%= @person.name %>
-</p>
+<h3><%= @person.name %></h3>
 
 <p>
   <strong>Email:</strong>
@@ -20,7 +15,10 @@
   <%= link_to @person.group.name, @person.group %>
 </p>
 
-<%= link_to 'Edit', edit_person_path(@person) %> | <%= link_to 'Delete', person_path(@person), method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Edit', edit_person_path(@person) %>
+<% if admin? %>
+| <%= link_to 'Delete', person_path(@person), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
 
 <h3>Appointments</h3>
 
@@ -44,7 +42,16 @@
           <% end %>
         </td>
         <td><%= link_to 'Details', appointment %></td>
-        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
+        <td>
+          <% if appointment.user == current_user || admin? %>
+            <%= link_to 'Edit', edit_appointment_path(appointment) %>
+          <% end %>
+        </td>
+        <td>
+          <% if appointment.user == current_user || admin? %>
+            <%= link_to 'Delete', appointment, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

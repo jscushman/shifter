@@ -17,8 +17,16 @@
         <td><%= link_to appointment.calendar.title, calendar_path(appointment.calendar) %></td>
         <td><%= link_to appointment.person.name, person_path(appointment.person) %></td>
         <td><%= link_to 'Show', appointment %></td>
-        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Delete', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if appointment.user == current_user || admin? %>
+            <%= link_to 'Edit', edit_appointment_path(appointment) %>
+          <% end %>
+        </td>
+        <td>
+          <% if appointment.user == current_user || admin? %>
+            <%= link_to 'Delete', appointment, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

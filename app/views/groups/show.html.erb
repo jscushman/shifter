@@ -1,12 +1,4 @@
-<p>
-  <strong>Name:</strong>
-  <%= @group.name %>
-</p>
-
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
-
-<h3>People</h3>
+<h3><%= @group.name %></h3>
 
 <table class="table table-striped">
   <thead>

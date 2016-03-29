@@ -20,4 +20,6 @@
 
 <br>
 
-<%= link_to 'New Calendar', new_calendar_path, class: "btn btn-primary" %>
+<% if admin? %>
+  <%= link_to 'New Calendar', new_calendar_path, class: "btn btn-primary" %>
+<% end %>

@@ -8,7 +8,9 @@
   Number of simultaneous reservations permitted: <%= @calendar.max_simultaneous %>
 </p>
 
-<p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
+<% if admin? %>
+  <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
+<% end %>
 
 <h3>Reservations</h3>
 <div class="pull-left">
@@ -102,8 +104,16 @@ $(function () {
           <% end %>
         </td>
         <td><%= link_to 'Details', appointment %></td>
-        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Delete', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if appointment.user == current_user || admin? %>
+            <%= link_to 'Edit', edit_appointment_path(appointment) %>
+          <% end %>
+        </td>
+        <td>
+          <% if appointment.user == current_user || admin? %>
+            <%= link_to 'Delete', appointment, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

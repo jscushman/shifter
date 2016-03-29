@@ -30,5 +30,7 @@
   </tr>
 </table>
 
-<%= link_to 'Edit', edit_appointment_path(@appointment) %> |
-<%= link_to 'Back', appointments_path %>
+<% if @appointment.user == current_user || admin? %>
+  <%= link_to 'Edit', edit_appointment_path(@appointment) %> |
+  <%= link_to 'Delete', @appointment, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
