@@ -20,4 +20,5 @@ Running ruby in a virtual environment is recommended. Note: This guide uses rben
 11. Run `bin/rake db:migrate` (in `/path/to/shifter`) to create the empty database
 12. Create a production key to run the server in production mode. Run `RAILS_ENV=production rake secret`, copy the code generated, and paste it into your `~/.bashrc` file as `export SECRET_KEY_BASE=secret_key_output` (where `secret_key_output` is the generated secret key)
 13. Log out and log in to get the new environment variables, and navigate back to `/path/to/shifter`
-14. Run `bin/rails server -e production` to start the server
+14. Run `RAILS_ENV=production bin/rake db:migrate`
+15. Run `bin/rails server -e production` to start the server
