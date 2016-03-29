@@ -22,3 +22,14 @@ Running ruby in a virtual environment is recommended. Note: This guide uses rben
 13. Log out and log in to get the new environment variables, and navigate back to `/path/to/shifter`
 14. Run `RAILS_ENV=production bin/rake db:migrate`
 15. Run `bin/rails server -e production` to start the server
+
+## Structure
+- Any number of Calendars can be created. I envision those being things like "On-site shift" or "Remote shift (0:00 - 8:00 CET)" or "Analysis Shift" or something along those lines. Each calendar has a title and a description, which can be any length. It has a parameter called "Simultaneous" that controls the number of simultaneous reservations that can be made on one calendar (this will probably be 1, or 2 if we want people to have slightly overlapping shifts). It also has a parameter called "Days per credit". This is for calculating shift credits. For example, if Days per credit is 7, then a 7-day reservation on that calendar is 1 shift credit. 
+
+- Groups exist and have People. Groups are institutions that are summed together for the purpose of calculating shift credits. People are members of those institutions.
+
+- Calendars have Reservations. Each Reservation is a certain number of days, on a certain Calendar, and associated with a Person and, by proxy, a Group.
+
+- The site has Users (username and password pairs). Users can create reservations on any calendars but can only edit the reservations that they make. Users don't have to correspond to People, but in most cases will. This is slightly confusing, but gives us more flexibility.
+
+- Users can have an Admin flag set. Admins are the only ones who can can create, delete, or edit calendars, and admins can edit anyone's reservations, not just their own.
