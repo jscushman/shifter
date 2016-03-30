@@ -6,12 +6,12 @@ class Appointment < ActiveRecord::Base
   scope :after, -> (date) { where("ends >= ?", date) }
   scope :inyear, -> (year) { where("strftime('%Y', starts) <= ? AND strftime('%Y', ends) >= ?", year, year) }
   
+  validates :starts, :ends, :calendar_id, :person_id, :user_id, presence: true
+  
   validate :ends_after_starts
-
   def ends_after_starts
     if ends.present? && starts.present? && ends < starts
       errors.add(:ends, "before it starts")
     end
   end
-  
 end

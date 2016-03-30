@@ -4,9 +4,15 @@
   <%= @calendar.description %>
 </p>
 
-<p>
-  Number of simultaneous reservations permitted: <%= @calendar.max_simultaneous %>
-</p>
+<ul>
+  <li>Number of simultaneous reservations permitted: <%= @calendar.max_simultaneous %></li>
+<% if @calendar.start_end_day? && @calendar.start_end_day > -1 %>
+  <li>Reservations must start and end on <%= Date::DAYNAMES[@calendar.start_end_day] %></li>
+<% else %>
+  <li>Reservations can be begin and end on any day of the week</li>
+<% end %>
+  <li>Reservations must be at least <%= @calendar.min_days %> days</li>
+</ul>
 
 <% if admin? %>
   <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
@@ -76,7 +82,7 @@ $(function () {
   <% end %>
 </table>
 
-<h3>Reservation List</h3>
+<h3>Reservation list</h3>
 <% if params[:future] == "yes" %>
   Showing all current and future reservations. <a href="<%= request.path %>?future=no">See all reservations</a>
   <% all_appointments = @calendar.appointments.after(Date.today).order(:starts) %>

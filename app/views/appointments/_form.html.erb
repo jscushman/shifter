@@ -44,8 +44,8 @@
             defaultDate: '<%= j params[:enddate] %>',
           <% elsif not params[:startdate].nil? %>
             defaultDate: '<%= j params[:startdate] %>',
-          <% elsif not @appointment.starts.nil? %>
-            defaultDate: '<%= j @appointment.starts.to_s %>',
+          <% elsif not @appointment.ends.nil? %>
+            defaultDate: '<%= j @appointment.ends.to_s %>',
           <% end %>
           <% if not admin? %>
             minDate: '<%= Date.today.strftime("%Y-%m-%d") %>'

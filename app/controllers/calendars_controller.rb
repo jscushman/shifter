@@ -68,6 +68,6 @@ class CalendarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def calendar_params
-      params.require(:calendar).permit(:title, :description, :max_simultaneous, :days_per_credit)
+      params.require(:calendar).permit(:title, :description, :max_simultaneous, :days_per_credit, :min_days, :start_end_day)
     end
 end

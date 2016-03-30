@@ -27,7 +27,16 @@ class AppointmentsController < ApplicationController
   def create
     @appointment = Appointment.new(appointment_params)
     @appointment.user = current_user
-    if @appointment.save
+    if @appointment.starts.wday != @appointment.calendar.start_end_day and not admin?
+      flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+      render :new
+    elsif @appointment.ends.wday != @appointment.calendar.start_end_day and not admin?
+      flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+      render :new
+    elsif @appointment.ends - @appointment.starts + 1 < @appointment.calendar.min_days and not admin?
+      flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
+      render :new
+    elsif @appointment.save
       redirect_to @appointment, flash: { success: 'Appointment was successfully created.' }
     else
       render :new
@@ -36,9 +45,23 @@ class AppointmentsController < ApplicationController
 
   # PATCH/PUT /appointments/1
   def update
-    if @appointment.update(appointment_params)
-      redirect_to @appointment, flash: { success: 'Appointment was successfully updated.' }
-    else
+    begin
+      if Date.parse(appointment_params[:starts]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
+        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+        render :edit
+      elsif Date.parse(appointment_params[:ends]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
+        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+        render :edit
+      elsif Date.parse(appointment_params[:ends]) - Date.parse(appointment_params[:starts]) + 1 < Calendar.find(appointment_params[:calendar_id]).min_days and not admin?
+        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
+        render :edit
+      elsif @appointment.update(appointment_params)
+        redirect_to @appointment, flash: { success: 'Appointment was successfully updated.' }
+      else
+        render :edit
+      end
+    rescue
+      flash.now[:error] = "Unkonwn error occured"
       render :edit
     end
   end
@@ -58,5 +81,5 @@ class AppointmentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
       params.require(:appointment).permit(:starts, :ends, :note, :calendar_id, :person_id)
-    end
+    end    
 end

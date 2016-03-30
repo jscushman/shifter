@@ -12,20 +12,28 @@
   <% end %>
 
   <div class="field form-group">
-    <%= f.label :title, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <%= f.label :title, class: 'col-sm-2 control-label' %>
     <div class="col-sm-8"><%= f.text_field :title, class: 'form-control' %></div>
   </div>
   <div class="field form-group">
-    <%= f.label :description, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
+    <%= f.label :description, class: 'col-sm-2 control-label' %>
     <div class="col-sm-8"><%= f.text_area :description, class: 'form-control' %></div>
   </div>
   <div class="field form-group">
-    <%= f.label "Simultaneous", class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
-    <div class="col-sm-8"><%= f.number_field :max_simultaneous, class: 'form-control' %></div>
+    <%= f.label "Simultaneous reservations", class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.number_field :max_simultaneous, min: 1, class: 'form-control' %></div>
   </div>
   <div class="field form-group">
-    <%= f.label :days_per_credit, class: 'col-sm-2 control-label', class: 'col-sm-2 control-label' %>
-    <div class="col-sm-8"><%= f.number_field :days_per_credit, class: 'form-control' %></div>
+    <%= f.label :days_per_credit, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.number_field :days_per_credit, min: 1, class: 'form-control' %></div>
+  </div>
+  <div class="field form-group">
+    <%= f.label "Minimum days per reservation", class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.number_field :min_days, min: 1, class: 'form-control' %></div>
+  </div>
+  <div class="field form-group">
+    <%= f.label "Start and end days", class: 'col-sm-2 control-label' %>
+    <div class="col-sm-8"><%= f.select :start_end_day, [["No requirement", -1]].concat((0..6).map {|i| [Date::DAYNAMES[i], i]}), {}, {class: 'form-control'} %></div>
   </div>
   <div class="actions form-group">
     <div class="col-sm-offset-2 col-sm-8">
