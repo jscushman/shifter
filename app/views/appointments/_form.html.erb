@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="field form-group">
-    <%= f.label :starts, class: 'col-sm-2 control-label' %>
+    <%= f.label :starts, {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8">
       <%= f.date_select :starts %>
       
@@ -33,7 +33,7 @@
     </div>
   </div>
   <div class="field form-group">
-    <%= f.label :ends, class: 'col-sm-2 control-label' %>
+    <%= f.label :ends, {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8">
       <%= f.date_select :ends %>
       
@@ -56,11 +56,11 @@
     </div>
   </div>
   <div class="field form-group">
-    <%= f.label :note, class: 'col-sm-2 control-label' %>
+    <%= f.label :note, {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= f.text_area :note, class: 'form-control' %></div>
   </div>
   <div class="field form-group">
-    <%= f.label :calendar_id, class: 'col-sm-2 control-label' %>
+    <%= f.label :calendar_id, {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8">
       <% if params[:cal].nil? %>
         <%= collection_select(:appointment, :calendar_id, Calendar.all, :id, :title, {}, {class: 'form-control'}) %>
@@ -70,7 +70,7 @@
     </div>
   </div>
   <div class="field form-group">
-    <%= f.label :person_id, class: 'col-sm-2 control-label' %>
+    <%= f.label :person_id, {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= collection_select(:appointment, :person_id, Person.all, :id, :name, {}, {class: 'form-control'}) %></div>
   </div>
   <div class="actions form-group">
