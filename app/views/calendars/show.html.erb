@@ -84,10 +84,19 @@ $(function () {
         <% thisday = @firstday + day + 7 * week %>
         <td style="width: 14.29%" class="<%= @calendar.appointments.on(thisday).length > 0 ? "success" : "" %>">
           <% if thisday.mday == 1 %>
-            <strong><%= link_to thisday.strftime("%B %Y"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %></strong>
+            <% if @calendar.start_end_day > -1 and thisday.wday != @calendar.start_end_day %>
+              <strong><%= thisday.strftime("%B %Y") %></strong>
+            <% else %>
+              <strong><%= link_to thisday.strftime("%B %Y"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %></strong>
+            <% end %>
           <% else %>
             <div class="pull-right">
-              <%= link_to thisday.strftime("%-d"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %>
+              <% if @calendar.start_end_day > -1 and thisday.wday != @calendar.start_end_day %>
+                <%= thisday.strftime("%-d") %>
+              <% else %>
+                <%= link_to thisday.strftime("%-d"), new_appointment_path({cal: @calendar.id, startdate: thisday}) %>
+              <% end %>
+              
             </div>
           <% end %>
           <% @calendar.appointments.on(thisday).each do |appointment| %>
