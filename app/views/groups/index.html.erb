@@ -1,8 +1,10 @@
-<h3>All Groups</h3>
+<h3>All groups</h3>
   <% @groups.each do |group| %>
     <h4><%= link_to group.name, group %></h4>
     <%= group.people.order(:name).map(&:name).to_sentence %>
   <% end %>
 <br /><br />
 
-<%= link_to 'New Group', new_group_path, class: "btn btn-primary" %>
+<% if admin? %>
+  <%= link_to 'New Group', new_group_path, class: "btn btn-primary" %>
+<% end %>

@@ -22,3 +22,7 @@
     <% end %>
   </tbody>
 </table>
+
+<% if admin? %>
+  <%= link_to 'Edit Group Details', edit_group_path(@group), class: "btn btn-primary" %>
+<% end %>

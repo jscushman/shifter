@@ -15,7 +15,7 @@
 </ul>
 
 <% if admin? %>
-  <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar) %></p>
+  <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar), class: "btn btn-primary" %></p>
 <% end %>
 
 <h3>Reservations</h3>
@@ -83,12 +83,12 @@ $(function () {
 </table>
 
 <h3>Reservation list</h3>
-<% if params[:future] == "yes" %>
-  Showing all current and future reservations. <a href="<%= request.path %>?future=no">See all reservations</a>
-  <% all_appointments = @calendar.appointments.after(Date.today).order(:starts) %>
-<% else %>
+<% if params[:future] == "no" %>
   Showing all reservations. <a href="<%= request.path %>?future=yes">See only current and future reservations</a>
   <% all_appointments = @calendar.appointments.order(:starts) %>
+<% else %>
+  Showing all current and future reservations. <a href="<%= request.path %>?future=no">See all reservations</a>
+  <% all_appointments = @calendar.appointments.after(Date.today).order(:starts) %>
 <% end %>
 <table class="table table-striped">
   <thead>

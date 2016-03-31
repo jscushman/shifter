@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user
-  before_action :authenticate_admin, only: [:destroy]
+  before_action :authenticate_admin, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /groups
   def index

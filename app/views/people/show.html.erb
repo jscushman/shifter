@@ -1,19 +1,22 @@
 <h3><%= @person.name %></h3>
 
-<p>
-  <strong>Email:</strong>
-  <%= @person.email %>
-</p>
+<table class="table table-striped">
+  <tr>
+    <td>Email:</td>
+    <td><%= @person.email %></td>
+  </tr>
+  
+  <tr>
+    <td>Phone:</td>
+    <td><%= @person.phone.phony_formatted(format: :international) %></td>
+  </tr>
+  
+  <tr>
+    <td>Group:</td>
+    <td><%= link_to @person.group.name, @person.group %></td>
+  </tr>
+</table>
 
-<p>
-  <strong>Phone:</strong>
-  <%= @person.phone.phony_formatted(format: :international) %>
-</p>
-
-<p>
-  <strong>Group:</strong>
-  <%= link_to @person.group.name, @person.group %>
-</p>
 
 <%= link_to 'Edit', edit_person_path(@person) %>
 <% if admin? %>
