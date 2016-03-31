@@ -27,22 +27,37 @@ class AppointmentsController < ApplicationController
   def create
     @appointment = Appointment.new(appointment_params)
     @appointment.user = current_user
-    if @appointment.calendar.start_end_day >= 0
-      if @appointment.starts.wday != @appointment.calendar.start_end_day and not admin?
-        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
-        render :new
-        return
-      elsif @appointment.ends.wday != @appointment.calendar.start_end_day and not admin?
-        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+    if not admin?
+      if @appointment.calendar.start_end_day >= 0
+        if @appointment.starts.wday != @appointment.calendar.start_end_day
+          flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+          render :new
+          return
+        elsif @appointment.ends.wday != @appointment.calendar.start_end_day
+          flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+          render :new
+          return
+        end
+      end
+      days = @appointment.ends - @appointment.starts + 1
+      first_test_day = (@appointment.calendar.no_credit_day ? 1 : 0)
+      last_test_day = (@appointment.calendar.no_credit_day ? days - 2 : days - 1)
+      if first_test_day <= last_test_day
+        for day in first_test_day..last_test_day
+          if @appointment.calendar.appointments.on(@appointment.starts + day).length >= @appointment.calendar.max_simultaneous
+            flash.now[:error] = "Reservation overlaps with at least " + @appointment.calendar.max_simultaneous.to_s + " appointment on " + (@appointment.starts + day).strftime("%B %-d, %Y")
+            render :new
+            return
+          end
+        end
+      end
+      if days < @appointment.calendar.min_days
+        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
         render :new
         return
       end
     end
-    if @appointment.ends - @appointment.starts + 1 < @appointment.calendar.min_days and not admin?
-      flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
-      render :new
-      return
-    elsif @appointment.save
+    if @appointment.save
       redirect_to @appointment, flash: { success: 'Appointment was successfully created.' }
     else
       render :new
@@ -52,28 +67,46 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1
   def update
     begin
-      if @appointment.calendar.start_end_day >= 0
-        if Date.parse(appointment_params[:starts]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
-          flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
-          render :edit
-          return
-        elsif Date.parse(appointment_params[:ends]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
-          flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+      if not admin?
+        calendar = Calendar.find(appointment_params[:calendar_id])
+        starts = Date.parse(appointment_params[:starts])
+        ends = Date.parse(appointment_params[:ends])
+        if calendar.start_end_day >= 0
+          if starts.wday != calendar.start_end_day
+            flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[calendar.start_end_day]
+            render :edit
+            return
+          elsif ends.wday != calendar.start_end_day
+            flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[calendar.start_end_day]
+            render :edit
+            return
+          end
+        end
+        days = ends - starts + 1
+        first_test_day = (calendar.no_credit_day ? 1 : 0)
+        last_test_day = (calendar.no_credit_day ? days - 2 : days - 1)
+        if first_test_day <= last_test_day
+          for day in first_test_day..last_test_day      
+            if calendar.appointments.except_id(@appointment.id).on(starts + day).length >= calendar.max_simultaneous
+              flash.now[:error] = "Reservation overlaps with at least " + calendar.max_simultaneous.to_s + " appointment on " + (starts + day).strftime("%B %-d, %Y")
+              render :new
+              return
+            end
+          end
+        end
+        if ends - starts + 1 < calendar.min_days
+          flash.now[:error] = 'Calendar "' + calendar.title + '" requires that reservations be at least ' + calendar.min_days.to_s + ' days long.'
           render :edit
           return
         end
       end
-      if Date.parse(appointment_params[:ends]) - Date.parse(appointment_params[:starts]) + 1 < Calendar.find(appointment_params[:calendar_id]).min_days and not admin?
-        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
-        render :edit
-        return
-      elsif @appointment.update(appointment_params)
+      if @appointment.update(appointment_params)
         redirect_to @appointment, flash: { success: 'Appointment was successfully updated.' }
       else
         render :edit
       end
     rescue
-      flash.now[:error] = "Unkonwn error occured"
+      flash.now[:error] = "Unknown error occured"
       render :edit
     end
   end

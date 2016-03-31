@@ -5,17 +5,28 @@
 </p>
 
 <ul>
-  <li>Number of simultaneous reservations permitted: <%= @calendar.max_simultaneous %></li>
-<% if @calendar.start_end_day? && @calendar.start_end_day > -1 %>
-  <li>Reservations must start and end on <%= Date::DAYNAMES[@calendar.start_end_day] %></li>
-<% else %>
-  <li>Reservations can be begin and end on any day of the week</li>
-<% end %>
+  <li>
+    <% if @calendar.start_end_day? && @calendar.start_end_day > -1 %>
+      Reservations must start and end on <%= Date::DAYNAMES[@calendar.start_end_day] %>
+    <% else %>
+      Reservations can be begin and end on any day of the week
+    <% end %>
+  </li>
   <li>Reservations must be at least <%= @calendar.min_days %> days</li>
   <li>
     One shift credit is <%= @calendar.days_per_credit %> days
     <% if @calendar.no_credit_day %>
       (plus one overlap day)
+    <% end %>
+  </li>
+  <li>
+    <% if @calendar.max_simultaneous > 1 %>
+      <%= @calendar.max_simultaneous %> simultaneous reservations permitted
+    <% else %>
+      Simultaneous reservations not permitted
+    <% end %>
+    <% if @calendar.no_credit_day %>
+      (one overlap day not included)
     <% end %>
   </li>
 </ul>
