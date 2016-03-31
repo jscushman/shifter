@@ -12,6 +12,12 @@
   <li>Reservations can be begin and end on any day of the week</li>
 <% end %>
   <li>Reservations must be at least <%= @calendar.min_days %> days</li>
+  <li>
+    One shift credit is <%= @calendar.days_per_credit %> days
+    <% if @calendar.no_credit_day %>
+      (plus one overlap day)
+    <% end %>
+  </li>
 </ul>
 
 <% if admin? %>

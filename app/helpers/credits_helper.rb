@@ -9,6 +9,9 @@ module CreditsHelper
       ends = (end_year + "-12-31").to_datetime
     end
     days = (ends - starts + 1).to_i
+    if appointment.calendar.no_credit_day
+      days -= 1
+    end
     return days.to_f / (appointment.calendar.days_per_credit)
   end
 

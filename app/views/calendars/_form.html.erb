@@ -35,6 +35,10 @@
     <%= f.label "Start and end days", {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= f.select :start_end_day, [["No requirement", -1]].concat((0..6).map {|i| [Date::DAYNAMES[i], i]}), {}, {class: 'form-control'} %></div>
   </div>
+  <div class="field form-group">
+    <%= f.label :no_credit_day, {}, {class: 'col-sm-2 control-label'} %>
+    <div class="col-sm-8"><%= f.check_box :no_credit_day, class: 'form-control' %></div>
+  </div>  
   <div class="actions form-group">
     <div class="col-sm-offset-2 col-sm-8">
       <%= f.submit class: "btn btn-primary" %>

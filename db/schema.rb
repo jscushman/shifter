@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330220140) do
+ActiveRecord::Schema.define(version: 20160331213151) do
 
   create_table "appointments", force: :cascade do |t|
     t.date     "starts"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160330220140) do
     t.integer  "days_per_credit"
     t.integer  "start_end_day"
     t.integer  "min_days"
+    t.boolean  "no_credit_day"
   end
 
   create_table "groups", force: :cascade do |t|
