@@ -27,13 +27,16 @@ class AppointmentsController < ApplicationController
   def create
     @appointment = Appointment.new(appointment_params)
     @appointment.user = current_user
-    if @appointment.starts.wday != @appointment.calendar.start_end_day and not admin?
-      flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
-      render :new
-    elsif @appointment.ends.wday != @appointment.calendar.start_end_day and not admin?
-      flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
-      render :new
-    elsif @appointment.ends - @appointment.starts + 1 < @appointment.calendar.min_days and not admin?
+    if @appointment.calendar.start_end_day >= 0
+      if @appointment.starts.wday != @appointment.calendar.start_end_day and not admin?
+        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+        render :new
+      elsif @appointment.ends.wday != @appointment.calendar.start_end_day and not admin?
+        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+        render :new
+      end
+    end
+    if @appointment.ends - @appointment.starts + 1 < @appointment.calendar.min_days and not admin?
       flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
       render :new
     elsif @appointment.save
@@ -46,13 +49,16 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1
   def update
     begin
-      if Date.parse(appointment_params[:starts]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
-        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
-        render :edit
-      elsif Date.parse(appointment_params[:ends]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
-        flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
-        render :edit
-      elsif Date.parse(appointment_params[:ends]) - Date.parse(appointment_params[:starts]) + 1 < Calendar.find(appointment_params[:calendar_id]).min_days and not admin?
+      if @appointment.calendar.start_end_day >= 0
+        if Date.parse(appointment_params[:starts]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
+          flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+          render :edit
+        elsif Date.parse(appointment_params[:ends]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
+          flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
+          render :edit
+        end
+      end
+      if Date.parse(appointment_params[:ends]) - Date.parse(appointment_params[:starts]) + 1 < Calendar.find(appointment_params[:calendar_id]).min_days and not admin?
         flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
         render :edit
       elsif @appointment.update(appointment_params)
