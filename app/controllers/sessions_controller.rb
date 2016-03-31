@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       if params[:returnto]
         redirect_to params[:returnto]
       else
-        redirect_to root_path
+        redirect_to root_url
       end
     else
       flash.now[:"alert-danger"] = 'Invalid email/password combination'
