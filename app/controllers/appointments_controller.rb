@@ -31,14 +31,17 @@ class AppointmentsController < ApplicationController
       if @appointment.starts.wday != @appointment.calendar.start_end_day and not admin?
         flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
         render :new
+        return
       elsif @appointment.ends.wday != @appointment.calendar.start_end_day and not admin?
         flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
         render :new
+        return
       end
     end
     if @appointment.ends - @appointment.starts + 1 < @appointment.calendar.min_days and not admin?
       flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
       render :new
+      return
     elsif @appointment.save
       redirect_to @appointment, flash: { success: 'Appointment was successfully created.' }
     else
@@ -53,14 +56,17 @@ class AppointmentsController < ApplicationController
         if Date.parse(appointment_params[:starts]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
           flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
           render :edit
+          return
         elsif Date.parse(appointment_params[:ends]).wday != Calendar.find(appointment_params[:calendar_id]).start_end_day and not admin?
           flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]
           render :edit
+          return
         end
       end
       if Date.parse(appointment_params[:ends]) - Date.parse(appointment_params[:starts]) + 1 < Calendar.find(appointment_params[:calendar_id]).min_days and not admin?
         flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations be at least ' + @appointment.calendar.min_days.to_s + ' days long.'
         render :edit
+        return
       elsif @appointment.update(appointment_params)
         redirect_to @appointment, flash: { success: 'Appointment was successfully updated.' }
       else
