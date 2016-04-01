@@ -1,0 +1,13 @@
+Hi <%= @appointment.person.name %>,
+
+This is a reminder for your upcoming shift beginning in <%= pluralize (@appointment.starts - Date.today).to_i, "day" %>.
+
+- Calendar: <%= @appointment.calendar.title %>
+- Start Date: <%= @appointment.starts.strftime("%B %-d, %Y") %>
+- End Date: <%= @appointment.ends.strftime("%B %-d, %Y") %>
+- Notes: <%= @appointment.note %>
+
+Please let the shift coordinator (CC'ed on this email) know immediately if you are unable to make your scheduled shift.
+
+Thanks,
+The Shift Coordinator

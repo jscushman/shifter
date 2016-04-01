@@ -1,0 +1,11 @@
+Hi <%= @appointment.person.name %>,
+
+Your shift that was set to begin in <%= (@appointment.starts - Date.today).to_i %> days has been cancelled.
+
+- Calendar: <%= @appointment.calendar.title %>
+- Start Date: <%= @appointment.starts.strftime("%B %-d, %Y") %>
+- End Date: <%= @appointment.ends.strftime("%B %-d, %Y") %>
+- Notes: <%= @appointment.note %>
+
+Thanks,
+The Shift Coordinator

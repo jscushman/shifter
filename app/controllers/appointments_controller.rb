@@ -58,6 +58,7 @@ class AppointmentsController < ApplicationController
       end
     end
     if @appointment.save
+      UserMailer.new_reservation_email(@appointment).deliver_now
       redirect_to @appointment, flash: { success: 'Appointment was successfully created.' }
     else
       render :new
@@ -73,11 +74,11 @@ class AppointmentsController < ApplicationController
         ends = Date.parse(appointment_params[:ends])
         if calendar.start_end_day >= 0
           if starts.wday != calendar.start_end_day
-            flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[calendar.start_end_day]
+            flash.now[:error] = 'Calendar "' + calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[calendar.start_end_day]
             render :edit
             return
           elsif ends.wday != calendar.start_end_day
-            flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[calendar.start_end_day]
+            flash.now[:error] = 'Calendar "' + calendar.title + '" requires that reservations end on a ' + Date::DAYNAMES[calendar.start_end_day]
             render :edit
             return
           end
@@ -100,19 +101,22 @@ class AppointmentsController < ApplicationController
           return
         end
       end
+      old_appointment = @appointment.dup
       if @appointment.update(appointment_params)
+        UserMailer.updated_reservation_email(old_appointment, @appointment).deliver_now
         redirect_to @appointment, flash: { success: 'Appointment was successfully updated.' }
       else
         render :edit
       end
-    rescue
-      flash.now[:error] = "Unknown error occured"
+    rescue Exception => ex
+      flash.now[:error] = "An error occurred."
       render :edit
     end
   end
 
   # DELETE /appointments/1
   def destroy
+    UserMailer.deleted_reservation_email(@appointment).deliver_now
     @appointment.destroy
     redirect_to appointments_url, flash: { success: 'Appointment was successfully deleted.' }
   end

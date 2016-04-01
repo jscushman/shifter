@@ -26,8 +26,11 @@
       Simultaneous reservations not permitted
     <% end %>
     <% if @calendar.no_credit_day %>
-      (one overlap day not included)
+      (one overlap day allowed)
     <% end %>
+  </li>
+  <li>
+    Notifications sent to <%= (@calendar.watchers.split(/\s*,\s*/)).to_sentence %>
   </li>
 </ul>
 

@@ -1,0 +1,13 @@
+Hi <%= @appointment.person.name %>,
+
+Thanks for scheduling a new shift. Your shift begins in <%= (@appointment.starts - Date.today).to_i %> days.
+
+- Calendar: <%= @appointment.calendar.title %>
+- Start Date: <%= @appointment.starts.strftime("%B %-d, %Y") %>
+- End Date: <%= @appointment.ends.strftime("%B %-d, %Y") %>
+- Notes: <%= @appointment.note %>
+
+If you need to update your shift reservation, please do so at <%= appointment_url(@appointment) %>
+
+Thanks,
+The Shift Coordinator

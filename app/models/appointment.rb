@@ -4,6 +4,7 @@ class Appointment < ActiveRecord::Base
   belongs_to :user
   scope :except_id, -> (id) { where("id != ?", id) }
   scope :on, -> (date) { where("starts <= ? AND ends >= ?", date, date) }
+  scope :startson, -> (date) { where("starts == ?", date) }
   scope :after, -> (date) { where("ends >= ?", date) }
   scope :inyear, -> (year) { where("strftime('%Y', starts) <= ? AND strftime('%Y', ends) >= ?", year, year) }
   

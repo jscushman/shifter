@@ -2,6 +2,17 @@ class Calendar < ActiveRecord::Base
   has_many :appointments
   
   validates :title, :description, :max_simultaneous, :days_per_credit, :min_days, :start_end_day, :no_credit_day, presence: true
+  EMAILS_REGEX = /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\z/i
+  
+  validate :watchers_valid
+  def watchers_valid
+    for watcher in watchers.split(/\s*,\s*/)
+      if not watcher.match(EMAILS_REGEX)
+        errors.add(:watchers, "is not a valid comma-separated list of email addresses")
+        return
+      end
+    end
+  end
   
   validates_inclusion_of :max_simultaneous, in: 0..99
   validates_inclusion_of :days_per_credit, in: 0..99
