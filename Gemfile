@@ -32,6 +32,7 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'phony_rails'
 gem 'mail'
 gem 'whenever'
+gem 'figaro'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
