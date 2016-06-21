@@ -1,7 +1,7 @@
 class Calendar < ActiveRecord::Base
   has_many :appointments
   
-  validates :title, :description, :max_simultaneous, :days_per_credit, :min_days, :start_end_day, :no_credit_day, presence: true
+  validates :title, :description, :max_simultaneous, :days_per_credit, :min_days, :start_end_day, presence: true
   EMAILS_REGEX = /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\z/i
   
   validate :watchers_valid

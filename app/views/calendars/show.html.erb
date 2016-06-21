@@ -12,16 +12,16 @@
       Reservations can be begin and end on any day of the week
     <% end %>
   </li>
-  <li>Reservations must be at least <%= @calendar.min_days %> days</li>
+  <li>Reservations must be at least <%= pluralize(@calendar.min_days, "day") %></li>
   <li>
-    One shift credit is <%= @calendar.days_per_credit %> days
+    One shift credit is <%= pluralize(@calendar.days_per_credit, "day") %>
     <% if @calendar.no_credit_day %>
       (plus one overlap day)
     <% end %>
   </li>
   <li>
     <% if @calendar.max_simultaneous > 1 %>
-      <%= @calendar.max_simultaneous %> simultaneous reservations permitted
+      <%= pluralize(@calendar.max_simultaneous, "simultaneous reservation") %> permitted
     <% else %>
       Simultaneous reservations not permitted
     <% end %>
