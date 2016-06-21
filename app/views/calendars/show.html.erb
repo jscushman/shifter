@@ -29,9 +29,11 @@
       (one overlap day allowed)
     <% end %>
   </li>
-  <li>
-    Notifications sent to <%= (@calendar.watchers.split(/\s*,\s*/)).to_sentence %>
-  </li>
+  <% if (@calendar.watchers.split(/\s*,\s*/)).to_sentence != "" %>
+    <li>
+      Notifications sent to <%= (@calendar.watchers.split(/\s*,\s*/)).to_sentence %>
+    </li>
+  <% end %>
 </ul>
 
 <% if admin? %>
