@@ -22,4 +22,22 @@ module CreditsHelper
     end
     return (total_credits*10).round/10.0
   end
+  
+  def show_cal?(calendar)
+    return ((not params[:show_cal].nil?) and params[:show_cal][0] and (params[:show_cal].include? calendar.id.to_s))
+  end
+  
+  def list_cals_to_show
+    cals_to_show = Array.new
+    Calendar.all.each do |cal|
+      if show_cal?(cal)
+        cals_to_show.concat([cal.title])
+      end
+    end
+    if cals_to_show.size > 0 and cals_to_show.size < Calendar.all.size
+      return cals_to_show.to_sentence
+    else
+      return "all calendars"
+    end
+  end
 end

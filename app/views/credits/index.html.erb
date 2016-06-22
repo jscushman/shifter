@@ -1,14 +1,27 @@
 <h3>Shift credits by institution</h3>
-<form class="form-inline" style="padding-bottom:1em">
-  <div class="field form-group">
-    <label class="control-label" for="start_year">From</label>&nbsp;
-    <%= number_field_tag :start_year, @months, value: @start_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>&nbsp;
-    <label class="control-label" for="end_year">to</label>&nbsp;
-    <%= number_field_tag :end_year, @months, value: @end_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>&nbsp;
+<form class="form" style="padding-bottom:1em">
+  <div class="field form-group form-inline">
+    <label class="control-label col-sm-2" for="start_year">From</label>
+    <div class="col-sm-10">
+      <%= number_field_tag :start_year, @months, value: @start_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>&nbsp;
+      <label class="control-label" for="end_year">to</label>&nbsp;
+      <%= number_field_tag :end_year, @months, value: @end_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>
+    </div>
   </div>
-  <input type="submit" value="Show" class="btn btn-primary" />
-  <a href="<%= request.path %>" class="btn btn-primary">Reset</a>
+  <div class="field form-group">
+    <label class="control-label col-sm-2">Calendars</label>
+    <select class="selectpicker col-sm-10" multiple title="All" name="show_cal[]">
+      <% Calendar.all.each do |cal| %>
+        <option value="<%= cal.id %>" <% if show_cal?(cal) %> selected<% end %>><%= cal.title %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="col-sm-12">
+    <input type="submit" value="Show" class="btn btn-primary" />
+    <a href="<%= request.path %>" class="btn btn-primary">Reset</a>
+  </div>
 </form>
+<br /><br />
 <table class="table table-bordered table-striped">
   <tr>
     <th>Group</th>
@@ -16,6 +29,8 @@
       <% if @start_year.to_i != @end_year.to_i %>
         &ndash; <%= @end_year %>
       <% end %>
+      from
+      <%= list_cals_to_show %>
 </th>
   </tr>
   <% Group.all.each do |group| %>
