@@ -37,7 +37,10 @@
 </ul>
 
 <% if admin? %>
-  <p><%= link_to 'Edit calendar details', edit_calendar_path(@calendar), class: "btn btn-primary" %></p>
+  <p>
+    <%= link_to 'Edit calendar details', edit_calendar_path(@calendar), class: "btn btn-primary" %>
+    <%= link_to 'Delete calendar', calendar_path(@calendar), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %>
+  </p>
 <% end %>
 
 <h3>Reservations</h3>
