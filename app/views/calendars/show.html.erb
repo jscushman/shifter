@@ -39,7 +39,7 @@
 <% if admin? %>
   <p>
     <%= link_to 'Edit calendar details', edit_calendar_path(@calendar), class: "btn btn-primary" %>
-    <%= link_to 'Delete calendar', calendar_path(@calendar), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %>
+    <%= link_to 'Delete calendar', calendar_path(@calendar), method: :delete, data: { confirm: 'Are you sure? This will permanently delete all reservations associated with this calendar and they will be removed from all shift credit calculations.' }, class: "btn btn-primary" %>
   </p>
 <% end %>
 

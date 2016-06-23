@@ -16,5 +16,6 @@ class CreditsController < ApplicationController
     if @end_year < @start_year
       @end_year = @start_year
     end
+    @calendars = Calendar.all
   end
 end
