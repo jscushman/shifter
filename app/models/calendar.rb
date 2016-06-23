@@ -1,6 +1,9 @@
 class Calendar < ActiveRecord::Base
   has_many :appointments, dependent: :destroy
   
+  scope :actives, -> { where(active: true) }
+  scope :inactives, -> { where(active: false) }
+  
   validates :title, :description, :max_simultaneous, :credits_per_day, :min_days, :start_end_day, presence: true
   EMAILS_REGEX = /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\z/i
   

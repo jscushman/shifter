@@ -1,0 +1,29 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Calendar</th>
+      <th>Shifters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Calendar.all.actives.each do |calendar| %>
+      <tr>
+        <td><%= link_to calendar.title, calendar %></td>
+        <td>
+          <% todaysappointments = calendar.appointments.on(thedate) %>
+          <% if todaysappointments.length > 0 %>
+            <% todaysappointments.each do |appointment| %>
+              <%= link_to appointment.person.name, appointment.person %>
+              (<%= link_to appointment.person.group.name, appointment.person.group %>) &mdash;
+              Day <%= day_of_shift appointment, Date.today %> of <%= total_shift_days appointment %>
+              (<%= link_to "Details", appointment %>)<br />
+            <% end %>
+          <% else %>
+            No shifters
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,4 +1,4 @@
-<h3>All calendars</h3>
+<h3>Active calendars</h3>
 
 <table class="table table-hover">
   <thead>
@@ -9,7 +9,26 @@
   </thead>
 
   <tbody>
-    <% @calendars.each do |calendar| %>
+    <% @calendars.actives.each do |calendar| %>
+      <tr onclick="window.document.location='<%= calendar_url(calendar) %>'">
+        <td><%= link_to calendar.title, calendar %></td>
+        <td><%= calendar.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Inactive calendars</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @calendars.inactives.each do |calendar| %>
       <tr onclick="window.document.location='<%= calendar_url(calendar) %>'">
         <td><%= link_to calendar.title, calendar %></td>
         <td><%= calendar.description %></td>

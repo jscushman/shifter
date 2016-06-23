@@ -40,6 +40,10 @@
     <div class="col-sm-8"><%= f.check_box :no_credit_day, class: 'form-control' %></div>
   </div>
   <div class="field form-group">
+    <%= f.label :active, {}, {class: 'col-sm-2 control-label'} %>
+    <div class="col-sm-8"><%= f.check_box :active, class: 'form-control' %></div>
+  </div>
+  <div class="field form-group">
     <%= f.label :watchers, {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= f.text_area :watchers, class: 'form-control' %></div>
   </div>
