@@ -17,10 +17,18 @@ module CreditsHelper
 
   def sum_credits(group, start_year, end_year)
     total_credits = 0
-    group.appointments.inyear(start_year).each do |shift|
+    group.appointments.inyear(start_year).started.each do |shift|
       total_credits += shift_credit shift, start_year, end_year
     end
-    return (total_credits*10).round/10.0
+    return total_credits.round
+  end
+  
+  def scheduled_credits(group, start_year, end_year)
+    total_credits = 0
+    group.appointments.inyear(start_year).scheduled.each do |shift|
+      total_credits += shift_credit shift, start_year, end_year
+    end
+    return total_credits.round
   end
   
   def show_cal?(calendar)

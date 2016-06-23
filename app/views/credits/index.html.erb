@@ -36,7 +36,13 @@
   <% Group.all.each do |group| %>
     <tr>
       <td><%= link_to group.name, group %></td>
-      <td><%= sum_credits group, @start_year, @end_year %></td>
+      <td>
+        <%= sum_credits group, @start_year, @end_year %>
+        <% additional_credits = scheduled_credits group, @start_year, @end_year %>
+        <% if additional_credits > 0 %>
+          (+<%= additional_credits %> scheduled)
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

@@ -6,6 +6,8 @@ class Appointment < ActiveRecord::Base
   scope :on, -> (date) { where("starts <= ? AND ends >= ?", date, date) }
   scope :startson, -> (date) { where("starts == ?", date) }
   scope :after, -> (date) { where("ends >= ?", date) }
+  scope :started, -> { where("starts <= ?", Time.now.to_formatted_s(:db)) }
+  scope :scheduled, -> { where("starts > ?", Time.now.to_formatted_s(:db)) }
   scope :inyear, -> (year) { where("strftime('%Y', starts) <= ? AND strftime('%Y', ends) >= ?", year, year) }
   
   validates :starts, :ends, :calendar_id, :person_id, :user_id, presence: true
