@@ -86,7 +86,7 @@ $(function () {
     <th>Friday</th>
     <th>Saturday</th>
   </tr>
-  <% (0..(5*@months)).each do |week| %>
+  <% (0..(4.35*@months)).each do |week| %>
     <tr>
       <% (0..6).each do |day| %>
         <% thisday = @firstday + day + 7 * week %>
