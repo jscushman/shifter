@@ -12,7 +12,7 @@ module CreditsHelper
     if appointment.calendar.no_credit_day
       days -= 1
     end
-    return days.to_f / (appointment.calendar.days_per_credit)
+    return days.to_f * appointment.calendar.credits_per_day
   end
 
   def sum_credits(group, start_year, end_year)
