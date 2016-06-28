@@ -70,7 +70,7 @@
     </div>
   </div>
   <div class="field form-group">
-    <%= f.label :person_id, {}, {class: 'col-sm-2 control-label'} %>
+    <%= f.label "Shifter", {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= collection_select(:appointment, :person_id, Person.all, :id, :name, {}, {class: 'form-control'}) %></div>
   </div>
   <div class="actions form-group">

@@ -1,7 +1,7 @@
 <%= form_for(@person, html: {class: 'form-horizontal'}) do |f| %>
   <% if @person.errors.any? %>
     <div id="error_explanation" class="alert alert-danger fade in">
-      <p><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</p>
+      <p><%= pluralize(@person.errors.count, "error") %> prohibited this shifter from being saved:</p>
 
       <ul>
       <% @person.errors.full_messages.each do |message| %>
