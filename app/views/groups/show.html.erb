@@ -25,4 +25,5 @@
 
 <% if admin? %>
   <%= link_to 'Edit Group Details', edit_group_path(@group), class: "btn btn-primary" %>
+| <%= link_to 'Delete', group_path(@group), method: :delete, data: { confirm: 'Are you sure? Do not delete groups that have people in them.' } %>
 <% end %>
