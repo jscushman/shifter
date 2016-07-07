@@ -1,6 +1,8 @@
 class Calendar < ActiveRecord::Base
   has_many :appointments, dependent: :destroy
   
+  default_scope { order('title ASC') }
+  
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
   
