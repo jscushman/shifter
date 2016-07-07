@@ -17,7 +17,7 @@ module CreditsHelper
 
   def sum_credits(group, start_year, end_year)
     total_credits = 0
-    group.appointments.inyear(start_year).started.each do |shift|
+    group.appointments.inyear(start_year).started.incals(@cals_to_show).each do |shift|
       total_credits += shift_credit shift, start_year, end_year
     end
     return total_credits.round
@@ -25,7 +25,7 @@ module CreditsHelper
   
   def scheduled_credits(group, start_year, end_year)
     total_credits = 0
-    group.appointments.inyear(start_year).scheduled.each do |shift|
+    group.appointments.inyear(start_year).scheduled.incals(@cals_to_show).each do |shift|
       total_credits += shift_credit shift, start_year, end_year
     end
     return total_credits.round
@@ -36,14 +36,8 @@ module CreditsHelper
   end
   
   def list_cals_to_show
-    cals_to_show = Array.new
-    @calendars.each do |cal|
-      if show_cal?(cal)
-        cals_to_show.concat([cal.title])
-      end
-    end
-    if cals_to_show.size > 0 and cals_to_show.size < @calendars.size
-      return cals_to_show.to_sentence
+    if @cals_to_show.size > 0 and @cals_to_show.size < @calendars.size
+      return @cals_to_show.map(&:title).to_sentence
     else
       return "all calendars"
     end
