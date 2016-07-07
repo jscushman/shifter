@@ -8,7 +8,7 @@ class Appointment < ActiveRecord::Base
   scope :after, -> (date) { where("ends >= ?", date) }
   scope :started, -> { where("starts <= ?", Time.now.to_formatted_s(:db)) }
   scope :scheduled, -> { where("starts > ?", Time.now.to_formatted_s(:db)) }
-  scope :inyear, -> (year) { where("strftime('%Y', starts) <= ? AND strftime('%Y', ends) >= ?", year, year) }
+  scope :inyears, -> (start_year, end_year) { where("strftime('%Y', starts) <= ? AND strftime('%Y', ends) >= ?", end_year, start_year) }
   scope :incals, -> (cal_list) { where(calendar_id: cal_list.map(&:id)) }
   
   validates :starts, :ends, :calendar_id, :person_id, :user_id, presence: true
