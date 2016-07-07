@@ -12,7 +12,7 @@
     <label class="control-label col-sm-2">Calendars</label>
     <select class="selectpicker col-sm-10" multiple title="All" name="show_cal[]">
       <% Calendar.all.each do |cal| %>
-        <option value="<%= cal.id %>" <% if show_cal?(cal) %> selected<% end %>><%= cal.title %></option>
+        <option value="<%= cal.id %>" <% if not @all_selected and @cals_to_show.include? cal %> selected<% end %>><%= cal.title %></option>
       <% end %>
     </select>
   </div>

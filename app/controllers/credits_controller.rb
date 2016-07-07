@@ -27,10 +27,11 @@ class CreditsController < ApplicationController
         @cals_to_show.concat([cal])
       end
     end
-    if @cals_to_show.size == 0 or @cals_to_show.size == @calendars.size
+    if @cals_to_show.size == 0
       @calendars.each do |cal|
         @cals_to_show.concat([cal])
       end
     end
+    @all_selected = (@cals_to_show.size == @calendars.size)
   end
 end

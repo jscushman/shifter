@@ -30,11 +30,7 @@ module CreditsHelper
     end
     return total_credits.round
   end
-  
-  def show_cal?(calendar)
-    return ((not params[:show_cal].nil?) and params[:show_cal][0] and (params[:show_cal].include? calendar.id.to_s))
-  end
-  
+    
   def list_cals_to_show
     if @cals_to_show.size > 0 and @cals_to_show.size < @calendars.size
       return @cals_to_show.map(&:title).to_sentence
