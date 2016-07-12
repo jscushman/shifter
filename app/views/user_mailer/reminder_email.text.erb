@@ -7,7 +7,7 @@ This is a reminder for your upcoming shift beginning in <%= pluralize (@appointm
 - End Date: <%= @appointment.ends.strftime("%B %-d, %Y") %>
 - Notes: <%= @appointment.note %>
 
-Please let the shift coordinator (CC'ed on this email) know immediately if you are unable to make your scheduled shift.
+Please let the shift coordinator (<%= (@appointment.calendar.watchers.split(/\s*,\s*/)).to_sentence %>) know immediately if you are unable to make your scheduled shift.
 
 Thanks,
 The Shift Coordinator
