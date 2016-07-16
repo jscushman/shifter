@@ -1,8 +1,54 @@
 <h3>Shift Reservations</h3>
 <p>Welcome to the Shift Reservations tool. To make a new reservation, select a calendar from the <%= link_to "Calendars", calendars_path %> page and either click on the desired starting date or on the "New reservation" button.</p>
 <br />
-<h4>Today's shifters (<%= Date.today.strftime("%A, %B %-d, %Y") %>)</h4>
-<%= render 'appts', :thedate => Date.today %>
+<h4>Overview for <%= Date.today.strftime("%A, %B %-d, %Y") %></h4>
 
-<h4>Tomorrow's shifters (<%= Date.tomorrow.strftime("%A, %B %-d, %Y") %>)</h4>
-<%= render 'appts', :thedate => Date.tomorrow %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Calendar</th>
+      <th>Shifters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Calendar.all.actives.each do |calendar| %>
+      <tr>
+        <td><%= link_to calendar.title, calendar %></td>
+        <td>
+          <table>
+            <tr>
+              <td style="padding-right: 10px;">Today:</td>
+              <td>
+                <% shifts = output_shifts calendar, Date.today %>
+                <% if shifts.size == 0 %>
+                  No shifters
+                <% end %>
+                <% for shift in output_shifts calendar, Date.today %>
+                  <%= render 'appts', shift: shift %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding-right: 10px;">Tomorrow:</td>
+              <td>
+                <% shifts = output_shifts calendar, Date.today %>
+                <% if shifts.size == 0 %>
+                  No shifters
+                <% end %>
+                <% for shift in output_shifts calendar, Date.tomorrow %>
+                  <%= render 'appts', shift: shift %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding-right: 10px;">Next available:</td>
+              <td><%= next_empty_shift calendar %></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+"Next available" shows the next calendar date for which there is no shift reservation.
