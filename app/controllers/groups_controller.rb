@@ -42,8 +42,12 @@ class GroupsController < ApplicationController
 
   # DELETE /groups/1
   def destroy
-    @group.destroy
-    redirect_to groups_url, flash: { success: 'Group was successfully destroyed.' }
+    if @group.people.size == 0
+      @group.destroy
+      redirect_to groups_url, flash: { success: 'Group was successfully deleted.' }
+    else
+      redirect_to :back, flash: { "alert-danger": 'Group is not empty, so cannot be deleted.' }
+    end
   end
 
   private
