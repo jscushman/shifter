@@ -15,7 +15,7 @@ module OverviewHelper
     end
     for day in (Date.today + 2)..(Date.today + 365)
       if calendar.appointments.on(day).size == 0
-        return day.strftime("%A, %B %-d, %Y")
+        return day.strftime("%A, %B %-d, %Y") + " (in #{(day - Date.today).to_i} days)"
       end
     end
     return "All covered for the next year"
