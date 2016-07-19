@@ -1,7 +1,7 @@
 shifter
 =======
 
-Shifter is a web app that aids in scheduling shifts. It is based on Ruby on Rails.
+Shifter is a web app that aids in scheduling shifts. It is based on Ruby on Rails and was written by Jeremy Cushman.
 
 ## Installation
 
