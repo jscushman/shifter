@@ -11,7 +11,7 @@ class Appointment < ActiveRecord::Base
   scope :inyears, -> (start_year, end_year) { where("strftime('%Y', starts) <= ? AND strftime('%Y', ends) >= ?", end_year, start_year) }
   scope :incals, -> (cal_list) { where(calendar_id: cal_list.map(&:id)) }
   
-  validates :starts, :ends, :calendar_id, :person_id, :user_id, presence: true
+  validates :starts, :ends, :calendar, :person, :user, presence: true
   
   validate :ends_after_starts
   def ends_after_starts

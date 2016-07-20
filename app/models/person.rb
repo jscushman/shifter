@@ -4,6 +4,6 @@ class Person < ActiveRecord::Base
   
   default_scope { order('name ASC') }
   
-  validates :name, :group_id, :email, :phone, :group_id, presence: true
+  validates :name, :group, :email, :phone, presence: true
   validates_plausible_phone :phone
 end
