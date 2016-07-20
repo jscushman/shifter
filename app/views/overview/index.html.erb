@@ -2,76 +2,91 @@
 <p>Welcome to the Shift Reservations tool. To make a new reservation, select a calendar from the <%= link_to "Calendars", calendars_path %> page and either click on the desired starting date or on the "New reservation" button.</p>
 <br />
 
-<h4>Happening now (<%= DateTime.now.strftime("%A, %B %-d, %Y at %H:%M") %>)</h4>
-<ul>
-<% Calendar.all.actives.each do |calendar| %>
-  <% cal_start = calendar.start_time.strftime("%H%M").to_i %>
-  <% cal_end = calendar.end_time.strftime("%H%M").to_i %>
-  <% curr_time = DateTime.now.strftime("%H%M").to_i %>
-  <% if (cal_start <= curr_time and cal_end > curr_time) or (cal_start == 0 and cal_end == 0) %>
-    <% theday = Date.today %>
-  <% elsif cal_start >= curr_time and cal_end > curr_time and cal_end < cal_start %>
-    <% theday = Date.yesterday %>
-  <% elsif cal_start <= curr_time and cal_end < curr_time and cal_end < cal_start %>
-    <% theday = Date.today %>
-  <% else %>
-    <% next %>
-  <% end %>
-  <% for shift in output_shifts calendar, theday %>
-    <li><%= link_to calendar.title, calendar %>: <%= render 'appts', shift: shift, date: theday %></li>
-  <% end %>
-<% end %>
-</ul>
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Happening now (<%= DateTime.now.strftime("%A, %B %-d, %Y at %H:%M") %>)</h3>
+  </div>
+  <div class="panel-body">
+    <ul>
+      <% Calendar.all.actives.each do |calendar| %>
+        <% cal_start = calendar.start_time.strftime("%H%M").to_i %>
+        <% cal_end = calendar.end_time.strftime("%H%M").to_i %>
+        <% curr_time = DateTime.now.strftime("%H%M").to_i %>
+        <% if (cal_start <= curr_time and cal_end > curr_time) or (cal_start == 0 and cal_end == 0) %>
+          <% theday = Date.today %>
+        <% elsif cal_start >= curr_time and cal_end > curr_time and cal_end < cal_start %>
+          <% theday = Date.yesterday %>
+        <% elsif cal_start <= curr_time and cal_end < curr_time and cal_end < cal_start %>
+          <% theday = Date.today %>
+        <% else %>
+          <% next %>
+        <% end %>
+        <% for shift in output_shifts calendar, theday %>
+          <li>
+            For <%= link_to calendar.title, calendar %>, the current shifter is 
+            <%= link_to shift.person.name, shift.person %> from <%= shift.person.group.name %>
+          <br />
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>
 
 
-<h4>Overview for <%= Date.today.strftime("%A, %B %-d, %Y") %></h4>
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Overview for <%= Date.today.strftime("%A, %B %-d, %Y") %></h3>
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Calendar</th>
+          <th>Shifters</th>
+        </tr>
+      </thead>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Calendar</th>
-      <th>Shifters</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% Calendar.all.actives.each do |calendar| %>
-      <tr>
-        <td><%= link_to calendar.title, calendar %></td>
-        <td>
-          <table>
-            <tr>
-              <td style="padding-right: 10px;">Today:</td>
-              <td>
-                <% shifts = output_shifts calendar, Date.today %>
-                <% if shifts.size == 0 %>
-                  No shifters
-                <% end %>
-                <% for shift in output_shifts calendar, Date.today %>
-                  <%= render 'appts', shift: shift, date: Date.today %>
-                <% end %>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding-right: 10px;">Tomorrow:</td>
-              <td>
-                <% shifts = output_shifts calendar, Date.tomorrow %>
-                <% if shifts.size == 0 %>
-                  No shifters
-                <% end %>
-                <% for shift in output_shifts calendar, Date.tomorrow %>
-                  <%= render 'appts', shift: shift, date: Date.tomorrow %>
-                <% end %>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding-right: 10px;">Next available:</td>
-              <td><%= next_empty_shift calendar %></td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-"Next available" shows the next calendar date for which there is no shift reservation.
+      <tbody>
+        <% Calendar.all.actives.each do |calendar| %>
+          <tr>
+            <td><%= link_to calendar.title, calendar %></td>
+            <td>
+              <table>
+                <tr>
+                  <td style="padding-right: 10px; vertical-align: top;">Today:</td>
+                  <td>
+                    <% shifts = output_shifts calendar, Date.today %>
+                    <% if shifts.size == 0 %>
+                      No shifters
+                    <% end %>
+                    <% for shift in output_shifts calendar, Date.today %>
+                      <%= render 'appts', shift: shift, date: Date.today %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-right: 10px; vertical-align: top;">Tomorrow:</td>
+                  <td>
+                    <% shifts = output_shifts calendar, Date.tomorrow %>
+                    <% if shifts.size == 0 %>
+                      No shifters
+                    <% end %>
+                    <% for shift in output_shifts calendar, Date.tomorrow %>
+                      <%= render 'appts', shift: shift, date: Date.tomorrow %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-right: 10px;">Next available:</td>
+                  <td><%= next_empty_shift calendar %></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    "Next available" shows the next calendar date for which there is no shift reservation.
+  </div>
+</div>
