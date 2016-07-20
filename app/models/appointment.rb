@@ -15,7 +15,7 @@ class Appointment < ActiveRecord::Base
   
   validate :ends_after_starts
   def ends_after_starts
-    if ends.present? && starts.present? && ends < starts
+    if ends < starts
       errors.add(:ends, "before it starts")
     end
   end

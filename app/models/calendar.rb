@@ -6,7 +6,7 @@ class Calendar < ActiveRecord::Base
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
   
-  validates :title, :description, :max_simultaneous, :credits_per_day, :min_days, :start_end_day, presence: true
+  validates :title, :description, :max_simultaneous, :credits_per_day, :start_time, :end_time, :min_days, :start_end_day, presence: true
   EMAILS_REGEX = /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\z/i
   
   validate :watchers_valid

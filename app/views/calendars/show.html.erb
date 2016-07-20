@@ -5,6 +5,19 @@
 </p>
 
 <ul>
+  <% if @calendar.start_time.strftime("%H%M") != "0000" or @calendar.end_time.strftime("%H%M") != "0000" %>
+    <li>
+      Shifts start at <%= @calendar.start_time.strftime("%H:%M") %>
+      <% if @calendar.start_time > @calendar.end_time %>
+        on the day listed
+      <% end %>
+      and end at <%= @calendar.end_time.strftime("%H:%M") %>
+      <% if @calendar.start_time > @calendar.end_time %>
+        the next day
+      <% end %>
+      (LNGS local time)
+    </li>
+  <% end %>  
   <li>
     <% if @calendar.start_end_day? && @calendar.start_end_day > -1 %>
       Reservations must start and end on <%= Date::DAYNAMES[@calendar.start_end_day] %>
