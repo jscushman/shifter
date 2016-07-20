@@ -8,11 +8,11 @@
   <% cal_start = calendar.start_time.strftime("%H%M").to_i %>
   <% cal_end = calendar.end_time.strftime("%H%M").to_i %>
   <% curr_time = DateTime.now.strftime("%H%M").to_i %>
-  <% if (cal_start < curr_time and cal_end > curr_time) or (cal_start == 0 and cal_end == 0) %>
+  <% if (cal_start <= curr_time and cal_end > curr_time) or (cal_start == 0 and cal_end == 0) %>
     <% theday = Date.today %>
-  <% elsif cal_start > curr_time and cal_end > curr_time and cal_end < cal_start %>
+  <% elsif cal_start >= curr_time and cal_end > curr_time and cal_end < cal_start %>
     <% theday = Date.yesterday %>
-  <% elsif cal_start < curr_time and cal_end < curr_time and cal_end < cal_start %>
+  <% elsif cal_start <= curr_time and cal_end < curr_time and cal_end < cal_start %>
     <% theday = Date.today %>
   <% else %>
     <% next %>
@@ -55,7 +55,7 @@
             <tr>
               <td style="padding-right: 10px;">Tomorrow:</td>
               <td>
-                <% shifts = output_shifts calendar, Date.today %>
+                <% shifts = output_shifts calendar, Date.tomorrow %>
                 <% if shifts.size == 0 %>
                   No shifters
                 <% end %>
