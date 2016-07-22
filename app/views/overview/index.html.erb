@@ -21,12 +21,22 @@
         <% else %>
           <% next %>
         <% end %>
-        <% for shift in output_shifts calendar, theday %>
+        <% shifts = output_shifts calendar, theday %>
+        <% if shifts.size == 1 %>
           <li>
             For <%= link_to calendar.title, calendar %>, the current shifter is 
-            <%= link_to shift.person.name, shift.person %> from <%= shift.person.group.name %>
-          <br />
+            <%= link_to shifts[0].person.name, shifts[0].person %> from <%= shifts[0].person.group.name %>
           </li>
+        <% elsif shifts.size > 1 %>
+        <li>
+          For <%= link_to calendar.title, calendar %>, the current shifters are 
+          <% shifts.each_with_index do |shift, index| %>
+            <% if index == shifts.size - 1 %>
+              and
+            <% end %>
+            <%= link_to shift.person.name, shift.person %> from <%= shift.person.group.name %><% if index < shifts.size - 1 and shifts.size != 2 %>,<% end %>
+          <% end %>
+        </li>
         <% end %>
       <% end %>
     </ul>
