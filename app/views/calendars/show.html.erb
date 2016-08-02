@@ -103,7 +103,7 @@ $(function () {
     <tr>
       <% (0..6).each do |day| %>
         <% thisday = @firstday + day + 7 * week %>
-        <td style="width: 14.29%" class="<%= @calendar.appointments.on(thisday).length > 0 ? "success" : "" %>">
+        <td style="width: 14.29%<%= thisday == Date.today ? "; background-color: #B2DBA1" : "" %>" class="<%= @calendar.appointments.on(thisday).length > 0 ? "success" : "" %>">
           <% if thisday.mday == 1 %>
             <% if @calendar.start_end_day > -1 and thisday.wday != @calendar.start_end_day %>
               <strong><%= thisday.strftime("%B %Y") %></strong>
