@@ -4,14 +4,14 @@
 
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h3 class="panel-title">Happening now (<%= DateTime.now.strftime("%A, %B %-d, %Y at %H:%M") %>)</h3>
+    <h3 class="panel-title">Happening now (<%= Time.zone.now.strftime("%A, %B %-d, %Y at %H:%M") %>)</h3>
   </div>
   <div class="panel-body">
     <ul>
       <% Calendar.all.actives.each do |calendar| %>
-        <% cal_start = calendar.start_time.strftime("%H%M").to_i %>
-        <% cal_end = calendar.end_time.strftime("%H%M").to_i %>
-        <% curr_time = DateTime.now.strftime("%H%M").to_i %>
+        <% cal_start = calendar.start_time.seconds_since_midnight / 3600 %>
+        <% cal_end = calendar.end_time.seconds_since_midnight / 3600 %>
+        <% curr_time = Time.zone.now.seconds_since_midnight / 3600 %>
         <% if (cal_start <= curr_time and cal_end > curr_time) or (cal_start == 0 and cal_end == 0) %>
           <% theday = Date.today %>
         <% elsif cal_start >= curr_time and cal_end > curr_time and cal_end < cal_start %>
@@ -30,6 +30,40 @@
         <% elsif shifts.size > 1 %>
         <li>
           For <%= link_to calendar.title, calendar %>, the current shifters are 
+          <% shifts.each_with_index do |shift, index| %>
+            <% if index == shifts.size - 1 %>
+              and
+            <% end %>
+            <%= link_to shift.person.name, shift.person %> from <%= shift.person.group.name %><% if index < shifts.size - 1 and shifts.size != 2 %>,<% end %>
+          <% end %>
+        </li>
+        <% end %>
+      <% end %>
+      <% Calendar.all.actives.each do |calendar| %>
+        <% cal_start = calendar.start_time.seconds_since_midnight / 3600 %>
+        <% cal_end = calendar.end_time.seconds_since_midnight / 3600 %>
+        <% curr_time = Time.zone.now.seconds_since_midnight / 3600 %>
+        <% if cal_start == 0 and cal_end == 0 %>
+        <% next %>
+        <% elsif (cal_start > curr_time and cal_start - curr_time < 3) %>
+          <% theday = Date.today %>
+        <% elsif cal_start + 24 - curr_time < 3 %>
+          <% theday = Date.tomorrow %>
+        <% else %>
+          <% next %>
+        <% end %>
+        <% shifts = output_shifts calendar, theday %>
+        <%= shift_start = Time.zone.local(theday.year, theday.month, theday.day, calendar.start_time.hour, calendar.start_time.min, calendar.start_time.sec) %>
+        <br /><%= Time.zone.now %>
+
+        <% if shifts.size == 1 %>
+          <li>
+            In <%= distance_of_time_in_words DateTime.now, shift_start %>, the current shifter for <%= link_to calendar.title, calendar %> will be
+            <%= link_to shifts[0].person.name, shifts[0].person %> from <%= shifts[0].person.group.name %>
+          </li>
+        <% elsif shifts.size > 1 %>
+        <li>
+          In <%= distance_of_time_in_words_to_now shift_start %>, the current shifters for <%= link_to calendar.title, calendar %> will be
           <% shifts.each_with_index do |shift, index| %>
             <% if index == shifts.size - 1 %>
               and
