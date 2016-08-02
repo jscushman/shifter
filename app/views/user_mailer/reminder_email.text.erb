@@ -1,11 +1,17 @@
 Hi <%= @appointment.person.name %>,
 
+<% if (@appointment.starts - Date.today).to_i != 1 %>
 This is a reminder for your upcoming shift beginning in <%= pluralize (@appointment.starts - Date.today).to_i, "day" %>.
+<% else %>
+This is a reminder for your shift beginning tomorrow.
+<% end %>
 
 - Calendar: <%= @appointment.calendar.title %>
 - Start Date: <%= @appointment.starts.strftime("%B %-d, %Y") %>
 - End Date: <%= @appointment.ends.strftime("%B %-d, %Y") %>
+<% if @appointment.note != "" %>
 - Notes: <%= @appointment.note %>
+<% end %>
 
 Please let the shift coordinator (<%= (@appointment.calendar.watchers.split(/\s*,\s*/)).to_sentence %>) know immediately if you are unable to make your scheduled shift.
 
