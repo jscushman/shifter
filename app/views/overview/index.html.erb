@@ -56,12 +56,12 @@
         <% shift_start = Time.zone.local(theday.year, theday.month, theday.day, calendar.start_time.hour, calendar.start_time.min, calendar.start_time.sec) %>
         <% if shifts.size == 1 %>
           <li>
-            In <%= distance_of_time_in_words DateTime.now, shift_start %>, the current shifter for <%= link_to calendar.title, calendar %> will be
+            In <%= distance_of_time_in_words DateTime.now, shift_start %>, the shifter for <%= link_to calendar.title, calendar %> will be
             <%= link_to shifts[0].person.name, shifts[0].person %> from <%= shifts[0].person.group.name %>
           </li>
         <% elsif shifts.size > 1 %>
         <li>
-          In <%= distance_of_time_in_words_to_now shift_start %>, the current shifters for <%= link_to calendar.title, calendar %> will be
+          In <%= distance_of_time_in_words_to_now shift_start %>, the shifters for <%= link_to calendar.title, calendar %> will be
           <% shifts.each_with_index do |shift, index| %>
             <% if index == shifts.size - 1 %>
               and
