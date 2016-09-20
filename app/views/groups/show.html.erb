@@ -1,4 +1,8 @@
 <h3><%= @group.name %></h3>
+<% if admin? %>
+  <%= link_to 'Edit group name', edit_group_path(@group) %>
+  | <%= link_to 'Delete group', group_path(@group), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
 
 <h4>Group members</h4>
 <table class="table table-striped">
@@ -23,11 +27,6 @@
     <% end %>
   </tbody>
 </table>
-
-<% if admin? %>
-  <%= link_to 'Edit Group Details', edit_group_path(@group), class: "btn btn-primary" %>
-| <%= link_to 'Delete', group_path(@group), method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
 
 <h4>Reservations</h4>
 <table class="table table-striped">
