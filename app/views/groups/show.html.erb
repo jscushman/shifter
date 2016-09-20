@@ -16,7 +16,10 @@
   </thead>
 
   <tbody>
-    <% @group.people.each do |person| %>
+    <% sortedpeople = @group.people.sort_by do |person| %>
+      <% person.name.split(" ").reverse.join.upcase %>
+    <% end %>
+    <% sortedpeople.each do |person| %>
       <tr>
         <td><%= link_to person.name, person %></td>
         <td><%= person.email %></td>
@@ -40,7 +43,10 @@
   </thead>
 
   <tbody>
-    <% @group.appointments.order(:starts).each do |appointment| %>
+    <% sortedappts = @group.appointments.sort_by do |appointment| %>
+      <% appointment.starts %>
+    <% end %>
+    <% sortedappts.each do |appointment| %>
       <tr>
         <td><%= link_to appointment.person.name, person_path(appointment.person) %></td>
         <td><%= link_to appointment.calendar.title, calendar_path(appointment.calendar) %></td>
