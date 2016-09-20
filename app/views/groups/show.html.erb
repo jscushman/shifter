@@ -23,7 +23,7 @@
       <tr>
         <td><%= link_to person.name, person %></td>
         <td><%= person.email %></td>
-        <td><%= person.phone %></td>
+        <td><%= person.phone.phony_formatted(format: :international) %></td>
         <td><%= link_to 'Edit', edit_person_path(person) %></td>
         <td><%= link_to 'Delete', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
