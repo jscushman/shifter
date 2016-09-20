@@ -1,7 +1,10 @@
 <h3>All groups</h3>
   <% @groups.each do |group| %>
     <h4><%= link_to group.name, group %></h4>
-    <%= group.people.order(:name).map(&:name).to_sentence %>
+    <% sortedpeople = group.people.sort_by do |person| %>
+      <% person.name.split(" ").reverse.join.upcase %>
+    <% end %>
+    <%= sortedpeople.map(&:name).to_sentence %>
   <% end %>
 <br /><br />
 
