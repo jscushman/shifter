@@ -27,6 +27,12 @@
     <%= f.label "Phone", {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= f.telephone_field :phone, class: 'form-control' %></div>
   </div>
+  <% if admin? %>
+    <div class="field form-group">
+      <%= f.label "Associated account", {}, {class: 'col-sm-2 control-label'} %>
+      <div class="col-sm-8"><%= collection_select(:person, :user_id, User.all, :id, :username, {}, {class: 'form-control'}) %></div>
+    </div>
+  <% end %>
   <div class="actions form-group">
     <div class="col-sm-offset-2 col-sm-8">
       <%= f.submit class: "btn btn-primary" %>

@@ -22,11 +22,13 @@ class PeopleController < ApplicationController
 
   # GET /people/1/edit
   def edit
+    authenticate_specific_user @person.user
   end
 
   # POST /people
   def create
     @person = Person.new(person_params)
+    @person.user = current_user
     if @person.save
       redirect_to @person, flash: { success: 'Person was successfully created.' }
     else
@@ -36,6 +38,7 @@ class PeopleController < ApplicationController
 
   # PATCH/PUT /people/1
   def update
+    authenticate_specific_user @person.user
     if @person.update(person_params)
       redirect_to @person, flash: { success: 'Person was successfully updated.' }
     else
@@ -57,6 +60,6 @@ class PeopleController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
-      params.require(:person).permit(:name, :group_id, :email, :phone)
+      params.require(:person).permit(:name, :group_id, :email, :phone, :user_id)
     end
 end

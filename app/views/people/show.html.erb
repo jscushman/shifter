@@ -15,10 +15,18 @@
     <td>Group:</td>
     <td><%= link_to @person.group.name, @person.group %></td>
   </tr>
+  
+  <% if admin? && @person.user %>
+    <tr>
+      <td>Created by:</td>
+      <td><%= link_to @person.user.username, user_path(@person.user) %></td>
+    </tr>
+  <% end %>
 </table>
 
-
-<%= link_to 'Edit', edit_person_path(@person) %>
+<% if @person.user == current_user || admin? %>
+  <%= link_to 'Edit', edit_person_path(@person) %>
+<% end %>
 <% if admin? %>
 | <%= link_to 'Delete', person_path(@person), method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>

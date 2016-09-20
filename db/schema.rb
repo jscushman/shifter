@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719220051) do
+ActiveRecord::Schema.define(version: 20160920182727) do
 
   create_table "appointments", force: :cascade do |t|
     t.date     "starts"
@@ -64,9 +64,11 @@ ActiveRecord::Schema.define(version: 20160719220051) do
     t.datetime "updated_at", null: false
     t.string   "email"
     t.string   "phone"
+    t.integer  "user_id"
   end
 
   add_index "people", ["group_id"], name: "index_people_on_group_id"
+  add_index "people", ["user_id"], name: "index_people_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "username"

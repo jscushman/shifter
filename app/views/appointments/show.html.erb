@@ -28,7 +28,12 @@
 
   <tr>
     <td>Created:</td>
-    <td><%= @appointment.created_at.strftime("%B %d, %Y") %> at <%= @appointment.created_at.strftime("%H:%M") %></td>
+    <td>
+      <%= @appointment.created_at.strftime("%B %d, %Y") %> at <%= @appointment.created_at.strftime("%H:%M") %>
+      <% if admin? %>
+        by <%= link_to @appointment.user.username, user_path(@appointment.user) %>
+      <% end %>
+    </td>
   </tr>
 </table>
 
