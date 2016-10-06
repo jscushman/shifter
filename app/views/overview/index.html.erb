@@ -45,9 +45,9 @@
         <% curr_time = Time.zone.now.seconds_since_midnight / 3600 %>
         <% if cal_start == 0 and cal_end == 0 %>
         <% next %>
-        <% elsif (cal_start > curr_time and cal_start - curr_time < 3) %>
+        <% elsif (cal_start > curr_time and cal_start - curr_time < 10) %>
           <% theday = Date.today %>
-        <% elsif cal_start + 24 - curr_time < 3 %>
+        <% elsif cal_start + 24 - curr_time < 10 %>
           <% theday = Date.tomorrow %>
         <% else %>
           <% next %>
