@@ -17,6 +17,7 @@ class AppointmentsController < ApplicationController
   # GET /appointments/new
   def new
     @appointment = Appointment.new
+    @appointment.credit = true
   end
 
   # GET /appointments/1/edit
@@ -129,6 +130,6 @@ class AppointmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
-      params.require(:appointment).permit(:starts, :ends, :note, :calendar_id, :person_id)
+      params.require(:appointment).permit(:starts, :ends, :note, :calendar_id, :person_id, :credit)
     end    
 end

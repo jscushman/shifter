@@ -35,6 +35,11 @@
       <% end %>
     </td>
   </tr>
+  
+  <tr>
+    <td>Credit:</td>
+    <td><% if @appointment.credit %> Yes <% else %> No <% end %></td>
+  </tr>
 </table>
 
 <% if @appointment.user == current_user || admin? %>

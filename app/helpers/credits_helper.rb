@@ -17,7 +17,7 @@ module CreditsHelper
 
   def sum_credits(group, start_year, end_year)
     total_credits = 0
-    group.appointments.inyears(start_year, end_year).started.incals(@cals_to_show).each do |shift|
+    group.appointments.inyears(start_year, end_year).started.incals(@cals_to_show).forcredit.each do |shift|
       total_credits += shift_credit shift, start_year, end_year
     end
     return total_credits.round
@@ -25,7 +25,7 @@ module CreditsHelper
   
   def scheduled_credits(group, start_year, end_year)
     total_credits = 0
-    group.appointments.inyears(start_year, end_year).scheduled.incals(@cals_to_show).each do |shift|
+    group.appointments.inyears(start_year, end_year).scheduled.incals(@cals_to_show).forcredit.each do |shift|
       total_credits += shift_credit shift, start_year, end_year
     end
     return total_credits.round
