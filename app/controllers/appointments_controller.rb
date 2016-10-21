@@ -104,8 +104,10 @@ class AppointmentsController < ApplicationController
       end
       old_appointment = @appointment.dup
       if @appointment.update(appointment_params)
-        UserMailer.updated_reservation_email(old_appointment, @appointment).deliver_now
-        redirect_to @appointment, flash: { success: 'Appointment was successfully updated.' }
+        if (@new_appointment.starts - Date.today).to_i > 0    
+          UserMailer.updated_reservation_email(old_appointment, @appointment).deliver_now
+          redirect_to @appointment, flash: { success: 'Appointment was successfully updated.' }
+        end
       else
         render :edit
       end
