@@ -1,9 +1,19 @@
 Hi <%= @appointment.person.name %>,
 
-<% if (@appointment.starts - Date.today).to_i != 1 %>
+<% if (@appointment.starts - Date.today).to_i > 1 %>
 Thanks for scheduling a new shift. Your shift begins in <%= (@appointment.starts - Date.today).to_i %> days.
-<% else %>
+<% elsif (@appointment.starts - Date.today).to_i == 1 %>
 Thanks for scheduling a new shift. Your shift begins tomorrow.
+<% elsif (@appointment.starts - Date.today).to_i == 0 %>
+Thanks for scheduling a new shift. Your shift begins today.
+<% elsif (@appointment.starts - Date.today).to_i < 0 and (@appointment.ends - Date.today).to_i > 1 %>
+An ongoing shift has been added to the calendar for you. It ends in <%= (@appointment.ends - Date.today).to_i %> days.
+<% elsif (@appointment.starts - Date.today).to_i < 0 and (@appointment.ends - Date.today).to_i == 1 %>
+An ongoing shift has been added to the calendar for you. It ends tomorrow.
+<% elsif (@appointment.starts - Date.today).to_i < 0 and (@appointment.ends - Date.today).to_i == 0 %>
+An ongoing shift has been added to the calendar for you. It ends today.
+<% else %>
+A shift you previously performed has been added to the calendar for you.
 <% end %>
 
 - Calendar: <%= @appointment.calendar.title %>
@@ -13,7 +23,9 @@ Thanks for scheduling a new shift. Your shift begins tomorrow.
 - Notes: <%= @appointment.note %>
 <% end %>
 
+<% if (@appointment.ends - Date.today).to_i > 0 %>
 If you need to update your shift reservation, please do so at <%= appointment_url(@appointment) %>
+<% end %>
 
 Thanks,
 The Shift Coordinator

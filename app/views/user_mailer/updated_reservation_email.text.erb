@@ -1,6 +1,20 @@
 Hi <%= @new_appointment.person.name %>,
 
-Thanks for updating your shift. Your shift now begins in <%= pluralize (@new_appointment.starts - Date.today).to_i, 'day' %>.
+<% if (@new_appointment.starts - Date.today).to_i > 1 %>
+Thanks for updating your shift. Your shift now begins in <%= (@new_appointment.starts - Date.today).to_i %> days.
+<% elsif (@new_appointment.starts - Date.today).to_i == 1 %>
+Thanks for updating your shift. Your shift now begins tomorrow.
+<% elsif (@new_appointment.starts - Date.today).to_i == 0 %>
+Thanks for updating your shift. Your shift now begins today.
+<% elsif (@new_appointment.starts - Date.today).to_i < 0 and (@new_appointment.ends - Date.today).to_i > 1 %>
+Your ongoing shift has been modified. It now ends in <%= (@new_appointment.ends - Date.today).to_i %> days.
+<% elsif (@new_appointment.starts - Date.today).to_i < 0 and (@new_appointment.ends - Date.today).to_i == 1 %>
+Your ongoing shift has been modified. It now ends tomorrow.
+<% elsif (@new_appointment.starts - Date.today).to_i < 0 and (@new_appointment.ends - Date.today).to_i == 0 %>
+Your ongoing shift has been modified. It now ends today.
+<% else %>
+A shift you previously performed has been modified.
+<% end %>
 
 New details:
 - Calendar: <%= @new_appointment.calendar.title %>
