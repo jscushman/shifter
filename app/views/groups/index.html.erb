@@ -9,7 +9,7 @@
       <% person.name.split(" ").reverse.join.upcase %>
     <% end %>
     <% if sortedinactives.size > 0 %>
-      <div style="color:gray;">(Former members: <%= sortedactives.map(&:name).to_sentence %>)</div>
+      <div style="color:gray;">(Former members: <%= sortedinactives.map(&:name).to_sentence %>)</div>
     <% end %>
   <% end %>
 <br /><br />
