@@ -5,6 +5,7 @@
     <tr>
       <th>Username</th>
       <th>Email</th>
+      <th>Admin?</th>
       <th></th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
       <tr>
         <td><%= link_to user.username, user %></td>
         <td><%= user.email %></td>
+        <td><%= user.admin? ? 'Yes' : '' %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
       </tr>
     <% end %>
