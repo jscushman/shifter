@@ -1,4 +1,4 @@
-<h3>All shifters</h3>
+<h3>Active shifters</h3>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -10,7 +10,30 @@
   </thead>
 
   <tbody>
-    <% @sortedpeople.each do |person| %>
+    <% @sortedactives.each do |person| %>
+      <tr>
+        <td><%= link_to person.name, person %></td>
+        <td><%= link_to person.group.name, person.group %></td>
+        <td><%= person.phone.phony_formatted(format: :international) %></td>
+        <td><%= person.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Inactive shifters</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Group</th>
+      <th>Phone</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sortedinactives.each do |person| %>
       <tr>
         <td><%= link_to person.name, person %></td>
         <td><%= link_to person.group.name, person.group %></td>

@@ -1,4 +1,4 @@
-<h3><%= @person.name %></h3>
+<h3><%= @person.name %><% if not @person.active %> (Inactive)<% end %></h3>
 
 <table class="table table-striped">
   <tr>

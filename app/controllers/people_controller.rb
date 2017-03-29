@@ -6,7 +6,10 @@ class PeopleController < ApplicationController
   # GET /people
   def index
     @people = Person.all
-    @sortedpeople = @people.sort_by do |person|
+    @sortedactives = @people.actives.sort_by do |person|
+      person.name.split(" ").reverse.join.upcase
+    end
+    @sortedinactives = @people.inactives.sort_by do |person|
       person.name.split(" ").reverse.join.upcase
     end
   end
@@ -60,6 +63,6 @@ class PeopleController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
-      params.require(:person).permit(:name, :group_id, :email, :phone, :user_id)
+      params.require(:person).permit(:name, :group_id, :email, :phone, :user_id, :active)
     end
 end

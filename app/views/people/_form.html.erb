@@ -27,6 +27,10 @@
     <%= f.label "Phone", {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= f.telephone_field :phone, class: 'form-control' %></div>
   </div>
+  <div class="field form-group">
+    <%= f.label :active, {}, {class: 'col-sm-2 control-label'} %>
+    <div class="col-sm-8"><%= f.check_box :active, class: 'form-control' %></div>
+  </div>
   <% if admin? %>
     <div class="field form-group">
       <%= f.label "Associated account", {}, {class: 'col-sm-2 control-label'} %>

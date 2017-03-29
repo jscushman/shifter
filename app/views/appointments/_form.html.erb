@@ -71,7 +71,7 @@
   </div>
   <div class="field form-group">
     <%= f.label "Shifter", {}, {class: 'col-sm-2 control-label'} %>
-    <div class="col-sm-8"><%= select(:appointment, :person_id, Person.all.collect {|mt| [ mt.name, mt.id ] }, {:include_blank => '-- Select a shifter --'}, {class: 'form-control'})%></div>
+    <div class="col-sm-8"><%= select(:appointment, :person_id, Person.actives.collect {|mt| [ mt.name, mt.id ] }, {:include_blank => '-- Select a shifter --'}, {class: 'form-control'})%></div>
   </div>
   <div class="field form-group">
     <%= f.label :credit, {}, {class: 'col-sm-2 control-label'} %>

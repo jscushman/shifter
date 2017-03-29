@@ -5,6 +5,9 @@ class Person < ActiveRecord::Base
   
   default_scope { order('name ASC') }
   
+  scope :actives, -> { where(active: true) }
+  scope :inactives, -> { where(active: false) }
+  
   validates :name, :group, :email, :phone, :user, presence: true
   validates_plausible_phone :phone
 end

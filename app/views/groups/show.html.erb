@@ -21,7 +21,7 @@
     <% end %>
     <% sortedpeople.each do |person| %>
       <tr>
-        <td><%= link_to person.name, person %></td>
+        <td><%= link_to person.name, person %><% if not person.active %> (inactive)<% end %></td>
         <td><%= person.email %></td>
         <td><%= person.phone.phony_formatted(format: :international) %></td>
         <td><%= link_to 'Edit', edit_person_path(person) %></td>
