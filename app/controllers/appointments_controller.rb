@@ -22,6 +22,14 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/1/edit
   def edit
+    if not admin? and (@appointment.starts - Date.today).to_i <= 1
+      flash[:"alert-danger"] = 'You cannot modify a shift reservation the begins in the past or in less than 2 days. Please contact the shift coordinator to modify this reservation.'
+      begin
+        redirect_to :back
+      rescue ActionController::RedirectBackError
+        redirect_to root_path
+      end
+    end
   end
 
   # POST /appointments
@@ -73,6 +81,11 @@ class AppointmentsController < ApplicationController
         calendar = Calendar.find(appointment_params[:calendar_id])
         starts = Date.parse(appointment_params[:starts])
         ends = Date.parse(appointment_params[:ends])
+        if (@appointment.starts - Date.today).to_i <= 1
+          flash.now[:error] = 'You cannot modify a shift reservation the begins in the past or in less than 2 days. Please contact the shift coordinator to modify this reservation.'
+          render :edit
+          return
+        end
         if calendar.start_end_day >= 0
           if starts.wday != calendar.start_end_day
             flash.now[:error] = 'Calendar "' + calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[calendar.start_end_day]
