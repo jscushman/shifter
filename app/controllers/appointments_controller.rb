@@ -130,6 +130,10 @@ class AppointmentsController < ApplicationController
 
   # DELETE /appointments/1
   def destroy
+    if not admin? and (@appointment.starts - Date.today).to_i <= 1
+      redirect_to @appointment, flash: { error: 'You cannot modify a shift reservation the begins in the past or in less than 2 days. Please contact the shift coordinator to modify this reservation.' }
+      return
+    end
     UserMailer.deleted_reservation_email(@appointment).deliver_now
     @appointment.destroy
     redirect_to appointments_url, flash: { success: 'Appointment was successfully deleted.' }
