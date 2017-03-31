@@ -27,7 +27,7 @@
   </li>
   <li>Reservations must be at least <%= pluralize(@calendar.min_days, "day") %></li>
   <li>
-    Each day earns <%= pluralize(@calendar.credits_per_day, "shift credits") %>
+    Each day earns 1/<%= pluralize(@calendar.days_per_credit, "shift credit") %>
     <% if @calendar.no_credit_day %>
       (one overlap day earns no credit)
     <% end %>

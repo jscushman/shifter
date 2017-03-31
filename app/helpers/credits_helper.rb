@@ -12,7 +12,7 @@ module CreditsHelper
     if appointment.calendar.no_credit_day
       days -= 1
     end
-    return days.to_f * appointment.calendar.credits_per_day
+    return days.to_f / appointment.calendar.days_per_credit
   end
 
   def sum_credits(group, start_year, end_year)
@@ -20,7 +20,7 @@ module CreditsHelper
     group.appointments.inyears(start_year, end_year).started.incals(@cals_to_show).forcredit.each do |shift|
       total_credits += shift_credit shift, start_year, end_year
     end
-    return total_credits.round
+    return total_credits.round(2)
   end
   
   def scheduled_credits(group, start_year, end_year)
@@ -28,7 +28,7 @@ module CreditsHelper
     group.appointments.inyears(start_year, end_year).scheduled.incals(@cals_to_show).forcredit.each do |shift|
       total_credits += shift_credit shift, start_year, end_year
     end
-    return total_credits.round
+    return total_credits.round(2)
   end
     
   def list_cals_to_show
