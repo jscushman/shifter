@@ -1,4 +1,3 @@
-<h3>Shift credits by institution</h3>
 <form class="form" style="padding-bottom:1em">
   <div class="field form-group form-inline">
     <label class="control-label col-sm-2" for="start_year">From</label>
@@ -21,7 +20,8 @@
     <a href="<%= request.path %>" class="btn btn-primary" data-no-turbolink="true">Reset</a>
   </div>
 </form>
-<br /><br />
+<br />
+<h3>Shift credits by institution</h3>
 <table class="table table-bordered table-striped">
   <tr>
     <th>Group</th>
@@ -39,6 +39,34 @@
       <td>
         <%= sum_credits group, @start_year, @end_year %>
         <% additional_credits = scheduled_credits group, @start_year, @end_year %>
+        <% if additional_credits > 0 %>
+          (+<%= additional_credits %> scheduled)
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<h3>Shift credits by individual</h3>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Shift Credits in <%= @start_year %>
+      <% if @start_year.to_i != @end_year.to_i %>
+        &ndash; <%= @end_year %>
+      <% end %>
+      from
+      <%= list_cals_to_show %>
+</th>
+  </tr>
+  <% sortedpeople = Person.all.sort_by do |person| %>
+  <%  sum_credits(person, @start_year, @end_year) + scheduled_credits(person, @start_year, @end_year) %>
+  <% end %>
+  <% sortedpeople.reverse.each do |person| %>
+    <tr>
+      <td><%= link_to person.name, person %></td>
+      <td>
+        <%= sum_credits person, @start_year, @end_year %>
+        <% additional_credits = scheduled_credits person, @start_year, @end_year %>
         <% if additional_credits > 0 %>
           (+<%= additional_credits %> scheduled)
         <% end %>
