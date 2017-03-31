@@ -59,18 +59,21 @@
 </th>
   </tr>
   <% sortedpeople = Person.all.sort_by do |person| %>
-  <%  sum_credits(person, @start_year, @end_year) + scheduled_credits(person, @start_year, @end_year) %>
+  <%   sum_credits(person, @start_year, @end_year) %>
   <% end %>
   <% sortedpeople.reverse.each do |person| %>
-    <tr>
-      <td><%= link_to person.name, person %></td>
-      <td>
-        <%= sum_credits person, @start_year, @end_year %>
-        <% additional_credits = scheduled_credits person, @start_year, @end_year %>
-        <% if additional_credits > 0 %>
-          (+<%= additional_credits %> scheduled)
-        <% end %>
-      </td>
-    </tr>
+    <% credits = sum_credits person, @start_year, @end_year %>
+    <% additional_credits = scheduled_credits person, @start_year, @end_year %>
+    <% if credits + additional_credits > 0 %>
+      <tr>
+        <td><%= link_to person.name, person %></td>
+        <td>
+          <%= credits %>
+          <% if additional_credits > 0 %>
+            (+<%= additional_credits %> scheduled)
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
 </table>
