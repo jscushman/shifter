@@ -59,17 +59,18 @@
       <%= list_cals_to_show %>
 </th>
   </tr>
+  <% person_credits = {} %>
   <% sortedpeople = Person.all.sort_by do |person| %>
-  <%   [sum_credits(person, @start_year, @end_year), scheduled_credits(person, @start_year, @end_year)] %>
+  <%   person_credits[person] = [sum_credits(person, @start_year, @end_year), scheduled_credits(person, @start_year, @end_year)] %>
   <% end %>
   <% place = 0 %>
   <% last_credits = 0 %>
   <% last_additional_credits = 0 %>
   <% num_tied = 1 %>
   <% sortedpeople.reverse.each do |person| %>
-    <% credits = sum_credits person, @start_year, @end_year %>
-    <% additional_credits = scheduled_credits person, @start_year, @end_year %>
-    <% if credits + additional_credits > 0 %>
+    <% credits = person_credits[person][0] %>
+    <% additional_credits = person_credits[person][1] %>
+    <% if person_credits[person].sum > 0 %>
       <tr>
         <td width=30 style="text-align:center;">
           <% if credits != last_credits or additional_credits != last_additional_credits %>
