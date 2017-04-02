@@ -17,11 +17,11 @@ class CreditsController < ApplicationController
     else
       @end_date = Date.today.year.to_s + "-12-31"
     end
+    @start_date = @start_date.to_datetime
+    @end_date = @end_date.to_datetime
     if @end_date < @start_date
       @end_date = @start_date
     end
-    @start_date = @start_date.to_datetime
-    @end_date = @end_date.to_datetime
     @calendars = Calendar.all
     @cals_to_show = Array.new
     @calendars.each do |cal|
