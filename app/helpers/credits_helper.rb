@@ -21,12 +21,17 @@ module CreditsHelper
     return days.to_f / appointment.calendar.days_per_credit
   end
 
+  def trim num
+    i, f = num.to_i, num.round(1)
+    i == f ? i : f
+  end
+
   def sum_credits(group, start_year, end_year)
     total_credits = 0
     group.appointments.inyears(start_year, end_year).started.incals(@cals_to_show).forcredit.each do |shift|
       total_credits += shift_credit shift, start_year, end_year, false
     end
-    return total_credits.round(2)
+    return trim total_credits
   end
   
   def scheduled_credits(group, start_year, end_year)
@@ -34,7 +39,7 @@ module CreditsHelper
     group.appointments.inyears(start_year, end_year).scheduled.incals(@cals_to_show).forcredit.each do |shift|
       total_credits += shift_credit shift, start_year, end_year, true
     end
-    return total_credits.round(2)
+    return trim total_credits
   end
     
   def list_cals_to_show
