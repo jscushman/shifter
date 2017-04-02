@@ -7,7 +7,7 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments
   def index
-    @appointments = Appointment.all
+    @appointments = Appointment.includes(:person, :calendar)
   end
 
   # GET /appointments/1
