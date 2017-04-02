@@ -2,7 +2,8 @@ class Person < ActiveRecord::Base
   belongs_to :group
   belongs_to :user
   has_many :appointments
-  
+  has_many :credited_appointments, -> { forcredit }, class_name: "Appointment"
+
   default_scope { order('name ASC') }
   
   scope :actives, -> { where(active: true) }

@@ -33,5 +33,7 @@ class CreditsController < ApplicationController
       end
     end
     @all_selected = (@cals_to_show.size == @calendars.size)
+    @started_appts = Appointment.all.inyears(@start_year, @end_year).started.incals(@cals_to_show).forcredit
+    @scheduled_appts = Appointment.all.inyears(@start_year, @end_year).scheduled.incals(@cals_to_show).forcredit
   end
 end

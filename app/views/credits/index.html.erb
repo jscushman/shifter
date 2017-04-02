@@ -33,19 +33,20 @@
       <%= list_cals_to_show %>
 </th>
   </tr>
-  <% Group.all.each do |group| %>
+  <% Group.includes(:credited_appointments).each do |group| %>
     <tr>
       <td><%= link_to group.name, group %></td>
       <td>
-        <%= sum_credits group, @start_year, @end_year %>
-        <% additional_credits = scheduled_credits group, @start_year, @end_year %>
-        <% if additional_credits > 0 %>
-          (+<%= additional_credits %> scheduled)
+        <% credits = sum_credits group, @start_year, @end_year, @cals_to_show %>
+        <%= credits[0] %>
+        <% if credits[1] > 0 %>
+          (+<%= credits[1] %> scheduled)
         <% end %>
       </td>
     </tr>
   <% end %>
 </table>
+
 <h3>Shift credits by individual</h3>
 <table class="table table-bordered table-striped">
   <tr>
@@ -60,8 +61,9 @@
 </th>
   </tr>
   <% person_credits = {} %>
-  <% sortedpeople = Person.all.sort_by do |person| %>
-  <%   person_credits[person] = [sum_credits(person, @start_year, @end_year), scheduled_credits(person, @start_year, @end_year)] %>
+  <% people = Person.includes(:credited_appointments) %>
+  <% sortedpeople = people.sort_by do |person| %>
+  <%   person_credits[person] = sum_credits(person, @start_year, @end_year, @cals_to_show) %>
   <% end %>
   <% place = 0 %>
   <% last_credits = 0 %>

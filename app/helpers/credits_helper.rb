@@ -26,20 +26,19 @@ module CreditsHelper
     i == f ? i : f
   end
 
-  def sum_credits(group, start_year, end_year)
+  def sum_credits(group, start_year, end_year, cals)
     total_credits = 0
-    group.appointments.inyears(start_year, end_year).started.incals(@cals_to_show).forcredit.each do |shift|
-      total_credits += shift_credit shift, start_year, end_year, false
+    total_scheduled = 0
+    group.credited_appointments.each do |shift|
+      if shift.starts.year <= start_year.to_i and shift.ends.year >= end_year.to_i and cals.include?(shift.calendar)
+        if shift.starts <= Date.today
+          total_credits += shift_credit shift, start_year, end_year, false
+        elsif shift.ends > Date.today
+          total_scheduled += shift_credit shift, start_year, end_year, true
+        end
+      end
     end
-    return trim total_credits
-  end
-  
-  def scheduled_credits(group, start_year, end_year)
-    total_credits = 0
-    group.appointments.inyears(start_year, end_year).scheduled.incals(@cals_to_show).forcredit.each do |shift|
-      total_credits += shift_credit shift, start_year, end_year, true
-    end
-    return trim total_credits
+    return [trim(total_credits), trim(total_scheduled)]
   end
     
   def list_cals_to_show
