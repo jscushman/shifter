@@ -33,7 +33,8 @@ module CreditsHelper
       if shift.starts.year <= start_year.to_i and shift.ends.year >= end_year.to_i and cals.include?(shift.calendar)
         if shift.starts <= Date.today
           total_credits += shift_credit shift, start_year, end_year, false
-        elsif shift.ends > Date.today
+        end
+        if shift.ends > Date.today
           total_scheduled += shift_credit shift, start_year, end_year, true
         end
       end
