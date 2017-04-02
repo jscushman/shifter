@@ -1,20 +1,20 @@
 module CreditsHelper
-  def shift_credit(appointment, start_year, end_year, scheduled_only)
-    starts = appointment.starts
-    ends = appointment.ends
-    if scheduled_only and starts <= Date.today
-      starts = Date.today + 1
+  def shift_credit(appointment, start_date, end_date, scheduled_only)
+    appt_starts = appointment.starts
+    appt_ends = appointment.ends
+    if scheduled_only and appt_starts <= Date.today
+      appt_starts = Date.today + 1
     end
-    if starts.year < start_year.to_i
-      starts = (start_year + "-01-01").to_datetime
+    if appt_starts < start_date
+      appt_starts = start_date
     end
-    if ends.year > end_year.to_i
-      ends = (end_year + "-12-31").to_datetime
+    if appt_ends > end_date
+      appt_ends = end_date
     end
-    if not scheduled_only and ends > Date.today
-      ends = Date.today
+    if not scheduled_only and appt_ends > Date.today
+      appt_ends = Date.today
     end
-    days = (ends - starts + 1).to_i
+    days = (appt_ends - appt_starts + 1).to_i
     if appointment.calendar.no_credit_day
       days -= 1
     end
@@ -26,16 +26,16 @@ module CreditsHelper
     i == f ? i : f
   end
 
-  def sum_credits(group, start_year, end_year, cals)
+  def sum_credits(group, start_date, end_date, cals)
     total_credits = 0
     total_scheduled = 0
     group.credited_appointments.each do |shift|
-      if shift.starts.year <= start_year.to_i and shift.ends.year >= end_year.to_i and cals.include?(shift.calendar)
+      if shift.starts <= end_date and shift.ends >= start_date and cals.include?(shift.calendar)
         if shift.starts <= Date.today
-          total_credits += shift_credit shift, start_year, end_year, false
+          total_credits += shift_credit shift, start_date, end_date, false
         end
         if shift.ends > Date.today
-          total_scheduled += shift_credit shift, start_year, end_year, true
+          total_scheduled += shift_credit shift, start_date, end_date, true
         end
       end
     end
@@ -48,5 +48,14 @@ module CreditsHelper
     else
       return "all calendars"
     end
+  end
+  
+  def date_range(start_date, end_date)
+    show_first_year = (start_date.year != end_date.year)
+    show_second_month = (show_first_year or start_date.month != end_date.month)
+    format1 = show_first_year ? "%b %d, %Y," : "%b %d"
+    format2 = show_second_month ? "%b %d, %Y," : "%d, %Y,"
+    return start_date.strftime(format1) + " to " + end_date.strftime(format2)
+    
   end
 end

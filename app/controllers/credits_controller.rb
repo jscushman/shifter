@@ -7,19 +7,21 @@ class CreditsController < ApplicationController
   end
   
   def index
-    if (not params[:start_year].nil? and params[:start_year].to_i > 0)
-      @start_year = params[:start_year]
+    if (not params[:start_date].nil?)
+      @start_date = params[:start_date]
     else
-      @start_year = Date.today.strftime("%Y")
+      @start_date = Date.today.year.to_s + "-01-01"
     end
-    if (not params[:end_year].nil? and params[:end_year].to_i > 0)
-      @end_year = params[:end_year]
+    if (not params[:end_date].nil?)
+      @end_date = params[:end_date]
     else
-      @end_year = Date.today.strftime("%Y")
+      @end_date = Date.today.year.to_s + "-12-31"
     end
-    if @end_year < @start_year
-      @end_year = @start_year
+    if @end_date < @start_date
+      @end_date = @start_date
     end
+    @start_date = @start_date.to_datetime
+    @end_date = @end_date.to_datetime
     @calendars = Calendar.all
     @cals_to_show = Array.new
     @calendars.each do |cal|
@@ -33,7 +35,5 @@ class CreditsController < ApplicationController
       end
     end
     @all_selected = (@cals_to_show.size == @calendars.size)
-    @started_appts = Appointment.all.inyears(@start_year, @end_year).started.incals(@cals_to_show).forcredit
-    @scheduled_appts = Appointment.all.inyears(@start_year, @end_year).scheduled.incals(@cals_to_show).forcredit
   end
 end

@@ -1,10 +1,34 @@
 <form class="form" style="padding-bottom:1em">
   <div class="field form-group form-inline">
-    <label class="control-label col-sm-2" for="start_year">From</label>
+    <label class="control-label col-sm-2" for="start_date">From</label>
     <div class="col-sm-10">
-      <%= number_field_tag :start_year, @months, value: @start_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>&nbsp;
-      <label class="control-label" for="end_year">to</label>&nbsp;
-      <%= number_field_tag :end_year, @months, value: @end_year, min: 2000, max: 2050, size: 2, class: 'form-control' %>
+      <div class="field form-group">
+        <div>
+          <div class="input-group">
+            <input value="" class="form-control datepicker" data-date-format="MMMM DD, YYYY" type="text" name="start_date" id="start_date" />
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          </div>
+          <%= javascript_tag do %>  
+          $(function () {
+            $('#start_date').datetimepicker({ defaultDate: '<%= @start_date.strftime("%Y-%m-%d") %>' });
+          });
+          <% end %>
+        </div>
+      </div>&nbsp;
+      <label class="control-label" for="appointment_ends">to</label>&nbsp;
+      <div class="field form-group">
+        <div>
+          <div class="input-group">
+            <input value="" class="form-control datepicker" data-date-format="MMMM DD, YYYY" type="text" name="end_date" id="end_date" />
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          </div>
+          <%= javascript_tag do %>  
+          $(function () {
+            $('#end_date').datetimepicker({ defaultDate: '<%= @end_date.strftime("%Y-%m-%d") %>' });
+          });
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
   <div class="field form-group">
@@ -25,19 +49,13 @@
 <table class="table table-bordered table-striped">
   <tr>
     <th>Group</th>
-    <th>Shift Credits in <%= @start_year %>
-      <% if @start_year.to_i != @end_year.to_i %>
-        &ndash; <%= @end_year %>
-      <% end %>
-      from
-      <%= list_cals_to_show %>
-</th>
+    <th>Shift credits from <%= date_range @start_date, @end_date %> from <%= list_cals_to_show %></th>
   </tr>
   <% Group.includes(:credited_appointments).each do |group| %>
     <tr>
       <td><%= link_to group.name, group %></td>
       <td>
-        <% credits = sum_credits group, @start_year, @end_year, @cals_to_show %>
+        <% credits = sum_credits group, @start_date, @end_date, @cals_to_show %>
         <%= credits[0] %>
         <% if credits[1] > 0 %>
           (+<%= credits[1] %> scheduled)
@@ -52,18 +70,12 @@
   <tr>
     <th></th>
     <th>Name</th>
-    <th>Shift Credits in <%= @start_year %>
-      <% if @start_year.to_i != @end_year.to_i %>
-        &ndash; <%= @end_year %>
-      <% end %>
-      from
-      <%= list_cals_to_show %>
-</th>
+    <th>Shift credits from <%= date_range @start_date, @end_date %> from <%= list_cals_to_show %></th>
   </tr>
   <% person_credits = {} %>
   <% people = Person.includes(:credited_appointments) %>
   <% sortedpeople = people.sort_by do |person| %>
-  <%   person_credits[person] = sum_credits(person, @start_year, @end_year, @cals_to_show) %>
+  <%   person_credits[person] = sum_credits(person, @start_date, @end_date, @cals_to_show) %>
   <% end %>
   <% place = 0 %>
   <% last_credits = 0 %>
