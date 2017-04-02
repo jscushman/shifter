@@ -49,6 +49,7 @@
 <h3>Shift credits by individual</h3>
 <table class="table table-bordered table-striped">
   <tr>
+    <th></th>
     <th>Name</th>
     <th>Shift Credits in <%= @start_year %>
       <% if @start_year.to_i != @end_year.to_i %>
@@ -61,11 +62,34 @@
   <% sortedpeople = Person.all.sort_by do |person| %>
   <%   [sum_credits(person, @start_year, @end_year), scheduled_credits(person, @start_year, @end_year)] %>
   <% end %>
+  <% place = 0 %>
+  <% last_credits = 0 %>
+  <% last_additional_credits = 0 %>
+  <% num_tied = 1 %>
   <% sortedpeople.reverse.each do |person| %>
     <% credits = sum_credits person, @start_year, @end_year %>
     <% additional_credits = scheduled_credits person, @start_year, @end_year %>
     <% if credits + additional_credits > 0 %>
       <tr>
+        <td width=30 style="text-align:center;">
+          <% if credits != last_credits or additional_credits != last_additional_credits %>
+            <% place = place + num_tied %>
+            <% last_credits = credits %>
+            <% last_additional_credits = additional_credits %>
+            <% num_tied = 1 %>
+          <% else %>
+            <% num_tied = num_tied + 1 %>
+          <% end %>
+          <% if place == 1 %>
+            <%= image_tag "goldmedal.png", size: "30x42" %>
+          <% elsif place == 2 %>
+            <%= image_tag "silvermedal.png", size: "30x42" %>
+          <% elsif place == 3 %>
+            <%= image_tag "bronzemedal.png", size: "30x42" %>
+          <% else %>
+            <%= place %>
+          <% end %>
+        </td>
         <td><%= link_to person.name, person %></td>
         <td>
           <%= credits %>
