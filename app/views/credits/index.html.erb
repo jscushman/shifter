@@ -59,7 +59,7 @@
 </th>
   </tr>
   <% sortedpeople = Person.all.sort_by do |person| %>
-  <%   sum_credits(person, @start_year, @end_year) %>
+  <%   [sum_credits(person, @start_year, @end_year), scheduled_credits(person, @start_year, @end_year)] %>
   <% end %>
   <% sortedpeople.reverse.each do |person| %>
     <% credits = sum_credits person, @start_year, @end_year %>
