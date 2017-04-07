@@ -2,7 +2,7 @@ class Calendar < ActiveRecord::Base
   has_many :appointments, dependent: :destroy
   has_many :appointments_today, -> { today }, class_name: "Appointment"
   has_many :appointments_tomorrow, -> { tomorrow }, class_name: "Appointment"
-  has_many :appointments_upcomingaftertomorrow, -> { upcomingaftertomorrow }, class_name: "Appointment"
+  has_many :appointments_upcoming, -> { upcoming }, class_name: "Appointment"
   
   default_scope { order('title ASC') }
   

@@ -8,7 +8,7 @@ class Appointment < ActiveRecord::Base
   scope :forcredit, -> { where("credit == ?", true) }
   scope :today, -> { where("starts <= ? AND ends >= ?", Date.today, Date.today) }
   scope :tomorrow, -> { where("starts <= ? AND ends >= ?", Date.tomorrow, Date.tomorrow) }
-  scope :upcomingaftertomorrow, -> { where("starts <= ? AND ends >= ?", Date.today + 365, Date.today + 2) }
+  scope :upcoming, -> { where("starts <= ? AND ends >= ?", Date.today + 365, Date.today) }
   
   validates :starts, :ends, :calendar, :person, :user, presence: true
   

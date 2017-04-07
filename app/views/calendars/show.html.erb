@@ -103,11 +103,13 @@ $(function () {
     <th>Friday</th>
     <th>Saturday</th>
   </tr>
+  <% sorted_appts = @calendar.appointments.includes(:person).sort_by{|appt| appt.starts} %>
   <% (0..(4.35*@months)).each do |week| %>
     <tr>
       <% (0..6).each do |day| %>
         <% thisday = @firstday + day + 7 * week %>
-        <td style="width: 14.29%<%= thisday == Date.today ? "; background-color: #B2DBA1" : "" %>" class="<%= @calendar.appointments.on(thisday).length > 0 ? "success" : "" %>">
+        <% day_appontments = sorted_appts.select { |appt| appt.starts <= thisday and appt.ends >= thisday } %>
+        <td style="width: 14.29%<%= thisday == Date.today ? "; background-color: #B2DBA1" : "" %>" class="<%= day_appontments.length > 0 ? "success" : "" %>">
           <% if thisday.mday == 1 %>
             <% if @calendar.start_end_day > -1 and thisday.wday != @calendar.start_end_day %>
               <strong><%= thisday.strftime("%B %Y") %></strong>
@@ -124,7 +126,7 @@ $(function () {
               
             </div>
           <% end %>
-          <% @calendar.appointments.on(thisday).each do |appointment| %>
+          <% day_appontments.each do |appointment| %>
             <br /><%= link_to(appointment.person.name, appointment_path(appointment)) %>
           <% end %>          
         </td>  
@@ -132,14 +134,13 @@ $(function () {
     </tr>
   <% end %>
 </table>
-
 <h3>Reservation list</h3>
 <% if params[:future] == "no" %>
   Showing all reservations. <a href="<%= request.path %>?future=yes">See only current and future reservations</a>
-  <% all_appointments = @calendar.appointments.order(:starts) %>
+  <% all_appointments = @calendar.appointments.includes(:person, :user).order(:starts) %>
 <% else %>
   Showing all current and future reservations. <a href="<%= request.path %>?future=no">See all reservations</a>
-  <% all_appointments = @calendar.appointments.after(Date.today).order(:starts) %>
+  <% all_appointments = @calendar.appointments.includes(:person, :user).after(Date.today).order(:starts) %>
 <% end %>
 <table class="table table-striped">
   <thead>

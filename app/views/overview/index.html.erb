@@ -90,7 +90,7 @@
       </thead>
 
       <tbody>
-        <% Calendar.includes(:appointments_today => {:person => :group}, :appointments_tomorrow => {:person => :group}, :appointments_upcomingaftertomorrow => {:person => :group}).actives.each do |calendar| %>
+        <% Calendar.includes(:appointments_today => {:person => :group}, :appointments_tomorrow => {:person => :group}, :appointments_upcoming => {:person => :group}).actives.each do |calendar| %>
           <tr>
             <td><%= link_to calendar.title, calendar %></td>
             <td>

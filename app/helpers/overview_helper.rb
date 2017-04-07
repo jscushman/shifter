@@ -13,13 +13,13 @@ module OverviewHelper
     elsif calendar.appointments_tomorrow.size == 0
       return "Tomorrow"
     end
-    sorted_appts = calendar.appointments_upcomingaftertomorrow.each.sort_by{|appt| appt.starts}
+    sorted_appts = calendar.appointments_upcoming.sort_by{|appt| appt.starts}
     last_end = Date.tomorrow
     for appt in sorted_appts
       if appt.starts - last_end > 1
         break
       end
-      last_end = appt.ends
+      last_end = (last_end > appt.ends ? last_end : appt.ends)
     end
     if last_end < Date.today + 365
       day = last_end + 1
