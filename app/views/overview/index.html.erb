@@ -8,7 +8,7 @@
   </div>
   <div class="panel-body">
     <ul>
-      <% Calendar.all.actives.each do |calendar| %>
+      <% Calendar.includes(:appointments_today => {:person => :group}).actives.each do |calendar| %>
         <% cal_start = calendar.start_time.seconds_since_midnight / 3600 %>
         <% cal_end = calendar.end_time.seconds_since_midnight / 3600 %>
         <% curr_time = Time.zone.now.seconds_since_midnight / 3600 %>
@@ -39,7 +39,7 @@
         </li>
         <% end %>
       <% end %>
-      <% Calendar.all.actives.each do |calendar| %>
+      <% Calendar.includes(:appointments_tomorrow => {:person => :group}).actives.each do |calendar| %>
         <% cal_start = calendar.start_time.seconds_since_midnight / 3600 %>
         <% cal_end = calendar.end_time.seconds_since_midnight / 3600 %>
         <% curr_time = Time.zone.now.seconds_since_midnight / 3600 %>
@@ -90,7 +90,7 @@
       </thead>
 
       <tbody>
-        <% Calendar.all.actives.each do |calendar| %>
+        <% Calendar.includes(:appointments_today => {:person => :group}, :appointments_tomorrow => {:person => :group}, :appointments_upcomingaftertomorrow => {:person => :group}).actives.each do |calendar| %>
           <tr>
             <td><%= link_to calendar.title, calendar %></td>
             <td>

@@ -8,22 +8,36 @@ module OverviewHelper
   end
   
   def next_empty_shift calendar
-    if calendar.appointments.on(Date.today).size == 0
+    if calendar.appointments_today.size == 0
       return "Today"
-    elsif calendar.appointments.on(Date.tomorrow).size == 0
+    elsif calendar.appointments_tomorrow.size == 0
       return "Tomorrow"
     end
-    for day in (Date.today + 2)..(Date.today + 365)
-      if calendar.appointments.on(day).size == 0
-        return day.strftime("%A, %B %-d, %Y") + " (in #{(day - Date.today).to_i} days)"
+    sorted_appts = calendar.appointments_upcomingaftertomorrow.each.sort_by{|appt| appt.starts}
+    last_end = Date.tomorrow
+    for appt in sorted_appts
+      if appt.starts - last_end > 1
+        break
       end
+      last_end = appt.ends
+    end
+    if last_end < Date.today + 365
+      day = last_end + 1
+      return day.strftime("%A, %B %-d, %Y") + " (in #{(day - Date.today).to_i} days)"
     end
     return "All covered for the next year"
   end
   
   def output_shifts calendar, date
     shifts = Array.new
-    calendar.appointments.on(date).each do |appointment|
+    if date == Date.today
+      appointments = calendar.appointments_today
+    elsif date == Date.tomorrow
+      appointments = calendar.appointments_tomorrow
+    else
+      appointments = calendar.appointments.includes(:person => :group).on(date)
+    end
+    appointments.each do |appointment|
       shifts.push(appointment)
     end
   end
