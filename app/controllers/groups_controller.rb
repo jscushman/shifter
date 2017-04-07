@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
 
   # GET /groups
   def index
-    @groups = Group.all
+    @groups = Group.includes(:actives, :inactives)
   end
 
   # GET /groups/1

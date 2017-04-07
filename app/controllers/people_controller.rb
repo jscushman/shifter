@@ -5,7 +5,7 @@ class PeopleController < ApplicationController
 
   # GET /people
   def index
-    @people = Person.all
+    @people = Person.includes(:group)
     @sortedactives = @people.actives.sort_by do |person|
       person.name.split(" ").reverse.join.upcase
     end

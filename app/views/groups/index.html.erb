@@ -1,11 +1,11 @@
 <h3>All groups</h3>
   <% @groups.each do |group| %>
     <h4><%= link_to group.name, group %></h4>
-    <% sortedactives = group.people.actives.sort_by do |person| %>
+    <% sortedactives = group.actives.sort_by do |person| %>
       <% person.name.split(" ").reverse.join.upcase %>
     <% end %>
     <%= sortedactives.map(&:name).to_sentence %>
-    <% sortedinactives = group.people.inactives.sort_by do |person| %>
+    <% sortedinactives = group.inactives.sort_by do |person| %>
       <% person.name.split(" ").reverse.join.upcase %>
     <% end %>
     <% if sortedinactives.size > 0 %>

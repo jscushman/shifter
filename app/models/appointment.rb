@@ -4,13 +4,11 @@ class Appointment < ActiveRecord::Base
   belongs_to :user
   scope :except_id, -> (id) { where("id != ?", id) }
   scope :on, -> (date) { where("starts <= ? AND ends >= ?", date, date) }
-  scope :startson, -> (date) { where("starts == ?", date) }
   scope :after, -> (date) { where("ends >= ?", date) }
-  scope :started, -> { where("starts <= ?", Time.now.to_formatted_s(:db)) }
-  scope :scheduled, -> { where("ends > ? ", Time.now.to_formatted_s(:db)) }
-  scope :inyears, -> (start_year, end_year) { where("strftime('%Y', starts) <= ? AND strftime('%Y', ends) >= ?", end_year, start_year) }
-  scope :incals, -> (cal_list) { where(calendar_id: cal_list.map(&:id)) }
   scope :forcredit, -> { where("credit == ?", true) }
+  scope :today, -> { where("starts <= ? AND ends >= ?", Date.today, Date.today) }
+  scope :tomorrow, -> { where("starts <= ? AND ends >= ?", Date.tomorrow, Date.tomorrow) }
+  scope :upcomingaftertomorrow, -> { where("starts <= ? AND ends >= ?", Date.today + 365, Date.today + 2) }
   
   validates :starts, :ends, :calendar, :person, :user, presence: true
   

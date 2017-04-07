@@ -1,8 +1,8 @@
 class Calendar < ActiveRecord::Base
   has_many :appointments, dependent: :destroy
-  has_many :appointments_today, -> { where("starts <= ? AND ends >= ?", Date.today, Date.today) }, class_name: "Appointment"
-  has_many :appointments_tomorrow, -> { where("starts <= ? AND ends >= ?", Date.tomorrow, Date.tomorrow) }, class_name: "Appointment"
-  has_many :appointments_upcomingaftertomorrow, -> { where("starts <= ? AND ends >= ?", Date.today + 365, Date.today + 2) }, class_name: "Appointment"
+  has_many :appointments_today, -> { today }, class_name: "Appointment"
+  has_many :appointments_tomorrow, -> { tomorrow }, class_name: "Appointment"
+  has_many :appointments_upcomingaftertomorrow, -> { upcomingaftertomorrow }, class_name: "Appointment"
   
   default_scope { order('title ASC') }
   
