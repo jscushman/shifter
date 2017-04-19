@@ -18,7 +18,7 @@
   
   <% if admin? && @person.user %>
     <tr>
-      <td>Created by:</td>
+      <td>Associated account:</td>
       <td><%= link_to @person.user.username, user_path(@person.user) %></td>
     </tr>
   <% end %>
