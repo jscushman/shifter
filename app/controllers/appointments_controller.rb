@@ -37,6 +37,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new(appointment_params)
     @appointment.user = current_user
     if not admin?
+      @appointment.credit = true
       if @appointment.calendar.start_end_day >= 0
         if @appointment.starts.wday != @appointment.calendar.start_end_day
           flash.now[:error] = 'Calendar "' + @appointment.calendar.title + '" requires that reservations start on a ' + Date::DAYNAMES[@appointment.calendar.start_end_day]

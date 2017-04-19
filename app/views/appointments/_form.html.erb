@@ -73,16 +73,14 @@
     <%= f.label "Shifter", {}, {class: 'col-sm-2 control-label'} %>
     <div class="col-sm-8"><%= select(:appointment, :person_id, Person.actives.collect {|mt| [ mt.name, mt.id ] }, {:include_blank => '-- Select a shifter --'}, {class: 'form-control'})%></div>
   </div>
-  <div class="field form-group">
-    <%= f.label :credit, {}, {class: 'col-sm-2 control-label'} %>
-    <div class="col-sm-8">
-      <% if admin? %>
+  <% if admin? %>
+    <div class="field form-group">
+      <%= f.label :credit, {}, {class: 'col-sm-2 control-label'} %>
+      <div class="col-sm-8">
         <%= f.check_box :credit, class: 'form-control' %>
-      <% else %>
-        <%= f.check_box :credit, class: 'form-control', disabled: true %>
-      <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
   <div class="actions form-group">
     <div class="col-sm-offset-2 col-sm-8">
       <%= f.submit class: "btn btn-primary" %>
