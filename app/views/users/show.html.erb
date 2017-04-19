@@ -4,15 +4,21 @@
     <td>Email:</td>
     <td><%= @user.email %></td>
   </tr>
-  
   <tr>
     <td>Created:</td>
     <td><%= @user.created_at.strftime("%B %d, %Y") %> at <%= @user.created_at.strftime("%H:%M") %></td>
   </tr>
-  
   <tr>
     <td>Admin:</td>
     <td><%= @user.admin ? "Yes" : "No" %></td>
+  </tr>
+  <tr>
+    <td>Shifter profiles owned:</td>
+    <td>
+      <% @user.people.each do |person|%>
+        <%= link_to person.name, person_path(person) %> (<%= link_to person.group.name, group_path(person.group) %>)<br>
+      <% end %>
+    </td>
   </tr>
 </table>
 
@@ -28,7 +34,7 @@
   </thead>
 
   <tbody>
-    <% @user.appointments.order(:starts).each do |appointment| %>
+    <% (@user.appointments + @user.controlled_appointments).uniq.sort{|a,b| a.starts <=> b.starts}.each do |appointment| %>
       <tr>
         <td><%= link_to appointment.person.name, person_path(appointment.person) %> (<%= link_to appointment.person.group.name, group_path(appointment.person.group) %>)</td>
         <td><%= link_to appointment.calendar.title, calendar_path(appointment.calendar) %></td>

@@ -34,13 +34,29 @@ module SessionsHelper
       return
     elsif current_user == user 
       return
-    else
-      flash[:"alert-danger"] = 'Only administrators can perform this action'
-      begin
-        redirect_to :back
-      rescue ActionController::RedirectBackError
-        redirect_to root_path
+    end
+    flash[:"alert-danger"] = 'Only administrators can perform this action'
+    begin
+      redirect_to :back
+    rescue ActionController::RedirectBackError
+      redirect_to root_path
+    end
+  end
+  
+  def authenticate_specific_users users
+    if admin?
+      return
+    end
+    users.each do |user|
+      if current_user == user 
+        return
       end
+    end
+    flash[:"alert-danger"] = 'Only administrators can perform this action'
+    begin
+      redirect_to :back
+    rescue ActionController::RedirectBackError
+      redirect_to root_path
     end
   end
   

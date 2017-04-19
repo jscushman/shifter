@@ -10,7 +10,7 @@
 
   <tbody>
     <% @calendars.actives.each do |calendar| %>
-      <tr onclick="window.document.location='<%= calendar_url(calendar) %>'">
+      <tr>
         <td><%= link_to calendar.title, calendar %></td>
         <td><%= calendar.description %></td>
       </tr>

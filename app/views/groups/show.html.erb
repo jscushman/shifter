@@ -24,8 +24,16 @@
         <td><%= link_to person.name, person %><% if not person.active %> (inactive)<% end %></td>
         <td><%= person.email %></td>
         <td><%= person.phone.phony_formatted(format: :international) %></td>
-        <td><%= link_to 'Edit', edit_person_path(person) %></td>
-        <td><%= link_to 'Delete', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if person.user == current_user || admin? %>
+            <%= link_to 'Edit', edit_person_path(person) %>
+          <% end %>
+        </td>
+        <td>
+          <% if person.user == current_user || admin? %>
+            <%= link_to 'Delete', person, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -57,8 +65,16 @@
           <% end %>
         </td>
         <td><%= link_to 'Details', appointment %></td>
-        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Delete', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if appointment.user == current_user || appointment.person.user == current_user || admin? %>
+            <%= link_to 'Edit', edit_appointment_path(appointment) %>
+          <% end %>
+        </td>
+        <td>
+          <% if appointment.user == current_user || appointment.person.user == current_user || admin? %>
+            <%= link_to 'Delete', appointment_path(appointment), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

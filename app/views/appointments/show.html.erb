@@ -42,7 +42,7 @@
   </tr>
 </table>
 
-<% if @appointment.user == current_user || admin? %>
+<% if @appointment.user == current_user || appointment.person.user == current_user || admin? %>
   <%= link_to 'Edit', edit_appointment_path(@appointment) %> |
   <%= link_to 'Delete', @appointment, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>

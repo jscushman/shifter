@@ -54,12 +54,12 @@
         </td>
         <td><%= link_to 'Details', appointment %></td>
         <td>
-          <% if appointment.user == current_user || admin? %>
+          <% if appointment.user == current_user || appointment.person.user == current_user || admin? %>
             <%= link_to 'Edit', edit_appointment_path(appointment) %>
           <% end %>
         </td>
         <td>
-          <% if appointment.user == current_user || admin? %>
+          <% if appointment.user == current_user || appointment.person.user == current_user || admin? %>
             <%= link_to 'Delete', appointment, method: :delete, data: { confirm: 'Are you sure?' } %>
           <% end %>
         </td>

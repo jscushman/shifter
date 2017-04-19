@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :appointments
   has_many :people
+  has_many :controlled_appointments, :through => :people, :source => :appointments
   
   before_save { self.email = email.downcase }
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
