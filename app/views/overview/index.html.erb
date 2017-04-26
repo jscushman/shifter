@@ -103,19 +103,15 @@
                       No shifters
                     <% end %>
                     <% for shift in output_shifts calendar, Date.today %>
-                      <%= render 'appts', shift: shift, date: Date.today %>
+                      <%= render 'appt_today', shift: shift %>
                     <% end %>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding-right: 10px; vertical-align: top;">Tomorrow:</td>
+                  <td style="padding-right: 10px; vertical-align: top;">Next:</td>
                   <td>
-                    <% shifts = output_shifts calendar, Date.tomorrow %>
-                    <% if shifts.size == 0 %>
-                      No shifters
-                    <% end %>
-                    <% for shift in output_shifts calendar, Date.tomorrow %>
-                      <%= render 'appts', shift: shift, date: Date.tomorrow %>
+                    <% for shift in next_shifts calendar %>
+                      <%= render 'appt_next', shift: shift %>
                     <% end %>
                   </td>
                 </tr>

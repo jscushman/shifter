@@ -28,6 +28,21 @@ module OverviewHelper
     return "All covered for the next year"
   end
   
+  def next_shifts calendar
+    sorted_appts = calendar.appointments_upcoming.sort_by{|appt| appt.starts}
+    next_appts = []
+    for appt in sorted_appts
+      if next_appts.size() > 0 and appt.starts == next_appts[0].starts
+        next_appts.append(appt)
+      elsif next_appts.size() > 0 and appt.starts != next_appts[0].starts
+        break
+      elsif appt.starts > Date.today
+        next_appts.append(appt)
+      end
+    end
+    return next_appts
+  end
+  
   def output_shifts calendar, date
     shifts = Array.new
     if date == Date.today

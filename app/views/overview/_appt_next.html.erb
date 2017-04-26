@@ -1,4 +1,4 @@
 <%= link_to shift.person.name, shift.person %>
 (<%= link_to shift.person.group.name, shift.person.group %>) &mdash;
-Day <%= day_of_shift shift, date %> of <%= total_shift_days shift %>
+starting in <%= (shift.starts - Date.today).to_i %> days on <%= shift.starts.strftime("%A, %B %-d") %>
 (<%= link_to "Details", shift %>)<br />

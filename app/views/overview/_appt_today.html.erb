@@ -1,0 +1,4 @@
+<%= link_to shift.person.name, shift.person %>
+(<%= link_to shift.person.group.name, shift.person.group %>) &mdash;
+Day <%= day_of_shift shift, Date.today %> of <%= total_shift_days shift %>
+(<%= link_to "Details", shift %>)<br />
