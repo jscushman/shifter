@@ -102,7 +102,7 @@
                     <% if shifts.size == 0 %>
                       No shifters
                     <% end %>
-                    <% for shift in output_shifts calendar, Date.today %>
+                    <% for shift in shifts %>
                       <%= render 'appt_today', shift: shift %>
                     <% end %>
                   </td>
@@ -110,7 +110,11 @@
                 <tr>
                   <td style="padding-right: 10px; vertical-align: top;">Next:</td>
                   <td>
-                    <% for shift in next_shifts calendar %>
+                    <% shifts = next_shifts calendar %>
+                    <% if shifts.size == 0 %>
+                      No future shifts scheduled
+                    <% end %>
+                    <% for shift in shifts %>
                       <%= render 'appt_next', shift: shift %>
                     <% end %>
                   </td>
