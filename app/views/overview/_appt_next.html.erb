@@ -1,3 +1,3 @@
 <%= link_to shift.person.name, shift.person %> &mdash;
-starting in <%= (shift.starts - Date.today).to_i %> days on <%= shift.starts.strftime("%A, %B %-d") %>
+starting in <%= pluralize((shift.starts - Date.today).to_i, 'day') %> on <%= shift.starts.strftime("%A, %B %-d") %>
 (<%= link_to "Details", shift %>)<br />
