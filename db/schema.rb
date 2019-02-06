@@ -29,13 +29,6 @@ ActiveRecord::Schema.define(version: 20170331100144) do
   add_index "appointments", ["person_id"], name: "index_appointments_on_person_id"
   add_index "appointments", ["user_id"], name: "index_appointments_on_user_id"
 
-  create_table "articles", force: :cascade do |t|
-    t.string   "title"
-    t.text     "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "calendars", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
